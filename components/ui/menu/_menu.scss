@@ -1,0 +1,29 @@
+.header-nav__inner{
+    text-align: center;
+    overflow-x: auto;
+}
+
+.header-nav__items {
+    padding-top: 30px;
+    padding-bottom: 10px;
+    display: flex;
+    position: relative;
+}
+.header-nav__item__icon{
+    position: relative;
+}
+
+
+
+
+.header-nav__item__icon__img2{
+   position: absolute;
+   top: 2px;
+    left: -3px;
+    opacity: 0;
+    transition: all 0.3s;
+  
+}
+.header-nav__item__icon__img2:hover{
+    opacity: 1;
+}
