@@ -1,7 +1,7 @@
 import { FC } from "react";
 import Head from "next/head";
 import { Navbar } from "../ui/navbar/Navbar";
-import { Menu } from "../ui/menu/Menu";
+
 
 //import { Navbar, SideMenu } from '../ui';
 
@@ -32,7 +32,7 @@ export const ShopLayout: FC<Props> = ({
 
       <nav> 
           <Navbar /> 
-          <Menu />
+          
       
       </nav>
 
