@@ -1,17 +1,92 @@
+@import url("https://fonts.googleapis.com/css2?family=Oswald:wght@300;500;700&display=swap");
+
 .main__container {
-  
-  width: 100%;
+  width: 100vw;
   min-height: calc(100vh - 300px);
+  margin: 0 auto;
 }
 .cards__container {
-    display: grid;
-    gap: 2rem;
-    
-    grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
-    padding: 2rem; 
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  padding: 20px 0px;
+  gap: 1rem;
 }
-.card__image-container{
-    width: 500px;
-    height: 500px;
-} 
+.card__container {
+  width: 97vw;
+  height: auto;
+}
+@media (min-width: 550px) {
+  .card__container {
+    width: 47vw;
+  }
+}
+@media (min-width: 1024px) {
+  .card__container {
+    width: 31.5vw;
+  }
+}
+.card__image-container {
+  border: 1px solid transparent;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: all 0.5s;
+  position: relative;
+}
+.card__image-container:hover {
+  border: 1px solid #333;
+  box-shadow: 4px 4px 2px #333;
+}
+.card__image-container-img {
+  transition: all 0.5s;
+}
+.card__image-container-img2 {
+  position: relative;
+  top: 0px;
+  left: 0px;
+  opacity: 0;
+  transition: all 0.5s;
+  display: none;
+}
 
+.card__image-container:hover .card__image-container-img1 {
+  opacity: 0;
+  display: none;
+}
+.card__image-container:hover .card__image-container-img2 {
+  opacity: 1;
+  display: block;
+}
+
+.card__content {
+  display: flex;
+  flex-direction: column;
+  padding: 0px 10px 10px 10px;
+}
+.card__content-row1 {
+  display: flex;
+
+  align-items: flex-start;
+  justify-content: space-between;
+}
+.card__title {
+  font-size: 1rem;
+  font-family: "Oswald", sans-serif;
+  font-weight: 500;
+  text-transform: uppercase;
+  line-height: 1.2;
+}
+
+.card__price, 
+.card__type {
+  color: #878787;
+  font-family: "Helvetica Neue", sans-serif;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.2;
+}
+.card__type{
+  text-transform: capitalize;
+  margin: 0;
+}
