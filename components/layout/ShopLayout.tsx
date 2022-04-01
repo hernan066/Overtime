@@ -2,7 +2,6 @@ import { FC } from "react";
 import Head from "next/head";
 import { Navbar } from "../ui/navbar/Navbar";
 
-
 //import { Navbar, SideMenu } from '../ui';
 
 interface Props {
@@ -30,23 +29,13 @@ export const ShopLayout: FC<Props> = ({
         {imageFullUrl && <meta name="og:image" content={imageFullUrl} />}
       </Head>
 
-      <nav> 
-          <Navbar /> 
-          
-      
+      <nav>
+        <Navbar />
       </nav>
 
       {/* <SideMenu /> */}
 
-      <main
-        style={{
-          margin: "80px auto",
-          maxWidth: "1440px",
-          padding: "0px 30px",
-        }}
-      >
-        {children}
-      </main>
+      <main>{children}</main>
 
       {/* Footer */}
       <footer>{/* TODO: mi custom footer */}</footer>
