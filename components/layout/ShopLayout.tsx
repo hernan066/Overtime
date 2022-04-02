@@ -1,6 +1,7 @@
 import { FC } from "react";
 import Head from "next/head";
 import { Navbar } from "../ui/navbar/Navbar";
+import { PromoBar } from "../ui/promoBar/PromoBar";
 
 //import { Navbar, SideMenu } from '../ui';
 
@@ -29,9 +30,9 @@ export const ShopLayout: FC<Props> = ({
         {imageFullUrl && <meta name="og:image" content={imageFullUrl} />}
       </Head>
 
-      <nav>
-        <Navbar />
-      </nav>
+      <PromoBar />
+
+      <Navbar />
 
       {/* <SideMenu /> */}
 

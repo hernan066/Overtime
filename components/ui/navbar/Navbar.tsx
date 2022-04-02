@@ -1,49 +1,28 @@
 import { AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Menu } from "../menu/Menu";
 
 export const Navbar = () => {
   const [hamburgerIcon, setHamburgerIcon] = useState<Boolean>(false);
+  const [hideNavbar, setHideNavbar] = useState(false);
+
+  useEffect(() => {
+    function fixNav() {
+      if (window.scrollY > 70 + 150) {
+        setHideNavbar(true);
+      } else {
+        setHideNavbar(false);
+      }
+    }
+
+    window.addEventListener("scroll", fixNav);
+  }, []);
 
   return (
-    <>
-      <div className="promo-bar__container">
-        <div className="marquee-text-container">
-          <div className="marquee-text-text">
-            <span>
-             
-            Free OT Wristbands on orders $95+ 🎁 Free U.S shipping on orders
-              $75+ 🛒 Free OT Wristbands on orders $95+ 🎁 Free U.S shipping on
-              orders $75+ 🛒 Free OT Wristbands on orders $95+ 🎁 Free U.S
-              shipping on orders $75+ 🛒 Free OT Wristbands on orders $95+ 🎁
-              Free U.S shipping on orders $75+ 🛒 Free OT Wristbands on orders
-              $95+ 🎁 Free U.S shipping on orders $75+ 🛒 Free OT Wristbands on
-              orders $95+ 🎁 Free U.S shipping on orders $75+ 🛒 Free OT
-              Wristbands on orders $95+ 🎁 Free U.S shipping on orders $75+ 🛒
-              Free OT Wristbands on orders $95+ 🎁 Free U.S shipping on orders
-              $75+ 🛒 Free OT Wristbands on orders $95+ 🎁 Free U.S shipping on
-              orders $75+ 🛒  Free OT Wristbands on orders $95+ 🎁 Free U.S
-              shipping on orders $75+ 🛒 
-              Free OT Wristbands on orders $95+ 🎁 Free U.S shipping on orders
-              $75+ 🛒 Free OT Wristbands on orders $95+ 🎁 Free U.S shipping on
-              orders $75+ 🛒 Free OT Wristbands on orders $95+ 🎁 Free U.S
-              shipping on orders $75+ 🛒 Free OT Wristbands on orders $95+ 🎁
-              Free U.S shipping on orders $75+ 🛒 Free OT Wristbands on orders
-              $95+ 🎁 Free U.S shipping on orders $75+ 🛒 Free OT Wristbands on
-              orders $95+ 🎁 Free U.S shipping on orders $75+ 🛒 Free OT
-              Wristbands on orders $95+ 🎁 Free U.S shipping on orders $75+ 🛒
-              Free OT Wristbands on orders $95+ 🎁 Free U.S shipping on orders
-              $75+ 🛒 Free OT Wristbands on orders $95+ 🎁 Free U.S shipping on
-              orders $75+ 🛒  Free OT Wristbands on orders $95+ 🎁 Free U.S
-              shipping on orders $75+ 🛒 
-            </span>
-          </div>
-        </div>
-      </div>
-
-      <div className="header__inner">
+    <nav className={`nav ${hideNavbar ? "hidden" : ""}`}>
+      <div className={`header__inner `}>
         <div className="header__container">
           <div className="header__nav">
             <div
@@ -109,9 +88,8 @@ export const Navbar = () => {
             </ul>
           </div>
         </div>
+        <AnimatePresence>{hamburgerIcon && <Menu />}</AnimatePresence>
       </div>
-
-      <AnimatePresence>{hamburgerIcon && <Menu />}</AnimatePresence>
-    </>
+    </nav>
   );
 };

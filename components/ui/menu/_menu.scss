@@ -1,15 +1,20 @@
 
 
 .header-nav__inner {
+  scrollbar-width: none;
+  overflow-x: auto;
   text-align: center;
-  overflow-x: scroll;
   border-bottom: #1e1e1e 1px solid;
-  position: fixed;
-  top: 80px;
+  position: absolute;
+  top: 71px;
   background-color: rgba(253, 253, 253, 0.9);
   width: 100%;
-  z-index: 2;
+  z-index: -1;
   
+  
+}
+.header-nav__inner::-webkit-scrollbar {
+  display: none;
 }
 
 .header-nav__items {
