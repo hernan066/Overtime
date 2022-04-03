@@ -38,14 +38,16 @@ export const Navbar = () => {
 
           <div className="header__logo">
             <Link href={"/"} passHref>
-              <span className="header__logo__icon">
-                <Image
-                  src={"/icons/logo.svg"}
-                  alt="bag"
-                  width={187}
-                  height={30}
-                />
-              </span>
+              <a>
+                <span className="header__logo__icon">
+                  <Image
+                    src={"/icons/logo.svg"}
+                    alt="bag"
+                    width={187}
+                    height={30}
+                  />
+                </span>
+              </a>
             </Link>
           </div>
 
@@ -65,13 +67,15 @@ export const Navbar = () => {
                 </div>
               </li>
               <li className="header__icons__account">
-                <Link href={"/"} passHref>
-                  <Image
-                    src={"/icons/account.svg"}
-                    alt="bag"
-                    width={36}
-                    height={36}
-                  />
+                <Link href={"/auth/login"} passHref>
+                  <a>
+                    <Image
+                      src={"/icons/account.svg"}
+                      alt="bag"
+                      width={36}
+                      height={36}
+                    />
+                  </a>
                 </Link>
               </li>
               <li className="header__icon__item--cart">

@@ -1,4 +1,21 @@
-body{
+:root{
+  --text-color-primary: #222;
+  --text-color-secondary: #222;
+
+  --primary-color: #3ff;
+  --secondary-color: #222;
+
+  --bg-color:#fff;
+  
+  --gray-color: #f2f2f2;
+  --black-color: #1e1e1e;
+  --white-color: #fff;
+}
+
+
+
+
+*{
   padding: 0;
   margin: 0;
   box-sizing: border-box;
@@ -83,5 +100,21 @@ button {
 
 ul li{
   list-style: none;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  border: 1px solid #222;
+  -webkit-text-fill-color: #222;
+  -webkit-box-shadow: 0 0 0px 1000px #fff inset;
+  transition: background-color 5000s ease-in-out 0s;
+  
 }
   
