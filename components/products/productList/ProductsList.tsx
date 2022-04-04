@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 
-import { IProduct } from "../../interfaces/products";
-import { ProductCard } from "./ProductCard";
+import { IProduct } from "../../../interfaces/products";
+import { ProductCard } from "../productCard/ProductCard";
 
 interface Props {
   products: IProduct[];

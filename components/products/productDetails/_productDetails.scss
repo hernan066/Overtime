@@ -1,0 +1,89 @@
+.product__details {
+    width: 100%;
+    padding-top: 30px;
+  }
+  .product__details .details,
+  .product__details .sizing {
+    display: flex;
+    justify-content: space-between;
+    border: 1px solid var(--black-color);
+    padding: 10px;
+  }
+  .product__details .details {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom: none;
+  }
+  
+  .details-content {
+    padding: 10px;
+    background-color: var(--gray-color);
+    border-top: 1px solid var(--black-color);
+    border-left: 1px solid var(--black-color);
+    border-right: 1px solid var(--black-color);
+    max-height: 120px;
+    overflow: hidden;
+    transition: all 0.3s;
+  }
+  .details-content p {
+    font-size: 14px;
+    font-family: "Helvetica Neue", sans-serif;
+    color: #1e1e1e;
+    font-weight: 200;
+  }
+  .details-sizing {
+    font-family: "Helvetica Neue", sans-serif;
+    font-weight: 400;
+    line-height: 15px;
+  
+    background-color: #ededed;
+    font-size: 14px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-left: 1px solid var(--black-color);
+    border-right: 1px solid var(--black-color);
+    border-bottom: 1px solid var(--black-color);
+    overflow: hidden;
+    white-space: nowrap;
+  
+    max-height: 220px;
+    overflow: hidden;
+    transition: all 0.3s;
+  }
+  
+  .details-sizing table {
+    border-collapse: collapse;
+  }
+  
+  .details-sizing table tbody tr {
+    border-bottom: 1px solid #1e1e1e;
+  }
+  
+  .details-sizing table tbody tr td {
+    padding: 10px;
+  }
+  .details-sizing table tbody tr:last-child {
+    border-bottom: none;
+  }
+  
+  .details-content.invisible {
+    visibility: hidden;
+    max-height: 0;
+    padding: 0 10px;
+  }
+  .details-sizing.invisible {
+    visibility: hidden;
+    max-height: 0;
+  }
+  
+  .sizing.invisible {
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    transition: all 0.4s;
+  }
+  
+  .btn-details {
+    cursor: pointer;
+    font-size: 20px;
+  }
+  

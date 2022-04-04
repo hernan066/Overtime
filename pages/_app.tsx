@@ -1,10 +1,20 @@
 
 import type { AppProps } from 'next/app'
 
-import "../styles/styles.scss";
+import { store } from "../redux/store";
+import { Provider } from "react-redux";
 
-function MyApp({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />
+import "../styles/styles.scss";
+import { AnimatePresence } from 'framer-motion';
+
+function MyApp({ Component, pageProps, router }: AppProps) {
+  return (
+    <Provider store={store}>
+      <AnimatePresence exitBeforeEnter>
+        <Component {...pageProps} key={router.asPath}/>
+      </AnimatePresence>
+    </Provider>
+  );
 }
 
 export default MyApp

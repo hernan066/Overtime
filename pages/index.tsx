@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 import { ShopLayout } from "../components/layout/ShopLayout";
 
-import { ProductsList } from "../components/products/ProductsList";
+import { ProductsList } from "../components/products/productList/ProductsList";
 import { initialData } from "../database/products";
 
 const Home: NextPage = () => {

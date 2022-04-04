@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { FC } from "react";
-import { IProduct } from "../../interfaces/products";
+import { IProduct } from "../../../interfaces/products";
 
 interface Props {
   product: IProduct;

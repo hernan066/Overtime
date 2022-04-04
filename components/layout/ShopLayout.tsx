@@ -2,6 +2,11 @@ import { FC } from "react";
 import Head from "next/head";
 import { Navbar } from "../ui/navbar/Navbar";
 import { PromoBar } from "../ui/promoBar/PromoBar";
+import { CartSideBar } from "../cart/cartSideBar/CartSideBar";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
+import { AnimatePresence } from "framer-motion";
+
 
 //import { Navbar, SideMenu } from '../ui';
 
@@ -17,6 +22,9 @@ export const ShopLayout: FC<Props> = ({
   pageDescription,
   imageFullUrl,
 }) => {
+  const cartSideBar = useSelector((state: RootState) => state.ui.cartSideBar);
+  
+
   return (
     <>
       <Head>
@@ -33,6 +41,10 @@ export const ShopLayout: FC<Props> = ({
       <PromoBar />
 
       <Navbar />
+
+      <AnimatePresence exitBeforeEnter>
+        {cartSideBar && <CartSideBar  />}
+      </AnimatePresence>
 
       {/* <SideMenu /> */}
 

@@ -3,10 +3,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Menu } from "../menu/Menu";
+import { useDispatch } from "react-redux";
+import { openCart } from "../../../redux/uiSlice";
 
 export const Navbar = () => {
   const [hamburgerIcon, setHamburgerIcon] = useState<Boolean>(false);
   const [hideNavbar, setHideNavbar] = useState(false);
+  const dispactch = useDispatch();
 
   useEffect(() => {
     function fixNav() {
@@ -78,17 +81,18 @@ export const Navbar = () => {
                   </a>
                 </Link>
               </li>
-              <li className="header__icon__item--cart">
-                <Link href={"/"} passHref>
-                  <a>
-                    <Image
-                      src={"/icons/bag.svg"}
-                      alt="bag"
-                      width={36}
-                      height={36}
-                    />
-                  </a>
-                </Link>
+              <li
+                className="header__icon__item--cart"
+                onClick={() => dispactch(openCart())}
+                style={{ cursor: "pointer" }}
+              >
+                <Image
+                  src={"/icons/bag.svg"}
+                  alt="bag"
+                  width={36}
+                  height={36}
+                />
+
                 <span className="header-cart-icon__count p2">2</span>
               </li>
             </ul>
