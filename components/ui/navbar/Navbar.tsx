@@ -80,12 +80,14 @@ export const Navbar = () => {
               </li>
               <li className="header__icon__item--cart">
                 <Link href={"/"} passHref>
-                  <Image
-                    src={"/icons/bag.svg"}
-                    alt="bag"
-                    width={36}
-                    height={36}
-                  />
+                  <a>
+                    <Image
+                      src={"/icons/bag.svg"}
+                      alt="bag"
+                      width={36}
+                      height={36}
+                    />
+                  </a>
                 </Link>
                 <span className="header-cart-icon__count p2">2</span>
               </li>

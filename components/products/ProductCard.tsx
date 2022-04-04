@@ -1,13 +1,19 @@
 import Image from "next/image";
-import { initialData } from "../../database/products";
+import Link from "next/link";
+import { FC } from "react";
+import { IProduct } from "../../interfaces/products";
 
-export const ProductCard = () => {
+interface Props {
+  product: IProduct;
+}
+
+export const ProductCard: FC<Props> = ({ product }) => {
   return (
-    <div className="cards__container">
-      {initialData.products.map((product) => (
-        <div className="card__container" key={product.slug}>
+    <div className="card__container">
+      <Link href="/product/slug" passHref prefetch={false}>
+        <a>
           <div className="card__image-container">
-             <div className="card__image-container-img1">
+            <div className="card__image-container-img1">
               <Image
                 src={`/products/${product.images[0]}`}
                 alt="img"
@@ -16,7 +22,7 @@ export const ProductCard = () => {
                 layout="responsive"
                 objectFit="cover"
               />
-            </div> 
+            </div>
             <div className="card__image-container-img2">
               <Image
                 src={`/products/${product.images[1]}`}
@@ -28,17 +34,18 @@ export const ProductCard = () => {
               />
             </div>
           </div>
-          <div className="card__content">
-            <div className="card__content-row1">
-              <h3 className="card__title">{product.title}</h3>
-              <p className="card__price">${product.price}</p>
-            </div>
-            <div className="card__content-row2">
-              <p className="card__type">{product.type}</p>
-            </div>
-          </div>
+        </a>
+      </Link>
+
+      <div className="card__content">
+        <div className="card__content-row1">
+          <h3 className="card__title">{product.title}</h3>
+          <p className="card__price">${product.price}</p>
         </div>
-      ))}
+        <div className="card__content-row2">
+          <p className="card__type">{product.type}</p>
+        </div>
+      </div>
     </div>
   );
 };
