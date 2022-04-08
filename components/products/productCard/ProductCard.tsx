@@ -2,6 +2,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { FC } from "react";
 import { IProduct } from "../../../interfaces/products";
+import { motion } from "framer-motion";
+
+const productsVariants = {
+  hidden: { opacity: 0, y: 50 },
+  visible: { opacity: 1, y: 0, transition: { delay: 0.6 } },
+};
 
 interface Props {
   product: IProduct;
@@ -9,7 +15,12 @@ interface Props {
 
 export const ProductCard: FC<Props> = ({ product }) => {
   return (
-    <div className="card__container">
+    <motion.div
+      className="card__container"
+      variants={productsVariants}
+      initial="hidden"
+      animate="visible"
+    >
       <Link href="/product/slug" passHref prefetch={false}>
         <a>
           <div className="card__image-container">
@@ -46,6 +57,6 @@ export const ProductCard: FC<Props> = ({ product }) => {
           <p className="card__type">{product.type}</p>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
