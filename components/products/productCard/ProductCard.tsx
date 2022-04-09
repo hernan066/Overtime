@@ -1,25 +1,41 @@
 import Image from "next/image";
 import Link from "next/link";
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import { IProduct } from "../../../interfaces/products";
-import { motion } from "framer-motion";
-
-const productsVariants = {
-  hidden: { opacity: 0, y: 50 },
-  visible: { opacity: 1, y: 0, transition: { delay: 0.6 } },
-};
+import { motion, useAnimation } from "framer-motion";
+import { useInView } from "react-intersection-observer";
 
 interface Props {
   product: IProduct;
+  idx: number;
 }
 
-export const ProductCard: FC<Props> = ({ product }) => {
+export const ProductCard: FC<Props> = ({ product, idx }) => {
+  const item = {
+    hidden: { opacity: 0,  y: 50 },
+    show: { opacity: 1, y: 0, transition: { duration: 0.5, } },
+  };
+
+  const { ref, inView}= useInView();
+  const animation = useAnimation();
+
+  useEffect(() => {
+   if(inView) {
+     animation.start(item.show);
+   }
+     if(!inView) {
+     animation.start(item.hidden);
+   }  
+  }, [inView]);
+  
+
   return (
     <motion.div
       className="card__container"
-      variants={productsVariants}
-      initial="hidden"
-      animate="visible"
+     
+      animate={animation}
+     
+      ref={ref}
     >
       <Link href="/product/slug" passHref prefetch={false}>
         <a>

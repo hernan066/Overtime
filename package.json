@@ -15,6 +15,7 @@
     "next": "12.1.2",
     "react": "18.0.0",
     "react-dom": "18.0.0",
+    "react-intersection-observer": "^8.33.1",
     "react-redux": "^7.2.8",
     "sass": "^1.49.9",
     "swr": "^1.2.2"

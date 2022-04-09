@@ -5,7 +5,7 @@ import { PromoBar } from "../ui/promoBar/PromoBar";
 import { CartSideBar } from "../cart/cartSideBar/CartSideBar";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
-import { AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 
 
 //import { Navbar, SideMenu } from '../ui';
@@ -48,7 +48,14 @@ export const ShopLayout: FC<Props> = ({
 
       {/* <SideMenu /> */}
 
-      <main>{children}</main>
+      <motion.main
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      
+      >{children}
+      
+      </motion.main>
 
       {/* Footer */}
       <footer>{/* TODO: mi custom footer */}</footer>

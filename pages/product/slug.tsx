@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -12,7 +13,11 @@ const ProductPage = () => {
   return (
     <ShopLayout title={product.title} pageDescription={product.description}>
       <div className="product__container">
-        <div className="product__image">
+        <motion.div 
+        className="product__image"
+        initial={{x: -200, opacity: 0}}
+        animate={{x: 0, opacity: 1, transition: {duration: 0.5}}}
+        >
           <div className="product__image-container">
             <Image
               src={`/products/${product.images[0]}`}
@@ -23,8 +28,12 @@ const ProductPage = () => {
               objectFit="cover"
             />
           </div>
-        </div>
-        <div className="product__description">
+        </motion.div>
+        <motion.div 
+        className="product__description"
+        initial={{x: 200, opacity: 0}}
+        animate={{x: 0, opacity: 1, transition: {duration: 0.5}}}
+        >
           <div className="product__description-container">
             <h3>❤️‍🔥 BEST SELLER</h3>
             <h2>{product.title}</h2>
@@ -45,7 +54,7 @@ const ProductPage = () => {
 
             <ProductDetails product={product} />
           </div>
-        </div>
+        </motion.div>
       </div>
     </ShopLayout>
   );
