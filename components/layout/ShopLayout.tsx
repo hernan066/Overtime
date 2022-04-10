@@ -6,9 +6,10 @@ import { CartSideBar } from "../cart/cartSideBar/CartSideBar";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import { AnimatePresence, motion } from "framer-motion";
+import { SearchSideBar } from "../products/productSearchSideBar/SearchSideBar";
 
 
-//import { Navbar, SideMenu } from '../ui';
+
 
 interface Props {
   title: string;
@@ -22,7 +23,9 @@ export const ShopLayout: FC<Props> = ({
   pageDescription,
   imageFullUrl,
 }) => {
+  
   const cartSideBar = useSelector((state: RootState) => state.ui.cartSideBar);
+  const searchSideBar = useSelector((state: RootState) => state.ui.searchSideBar);
   
 
   return (
@@ -44,6 +47,10 @@ export const ShopLayout: FC<Props> = ({
 
       <AnimatePresence exitBeforeEnter>
         {cartSideBar && <CartSideBar  />}
+      </AnimatePresence>
+      
+      <AnimatePresence exitBeforeEnter>
+        {searchSideBar && <SearchSideBar  />}
       </AnimatePresence>
 
       {/* <SideMenu /> */}

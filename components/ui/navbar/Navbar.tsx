@@ -4,12 +4,16 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Menu } from "../menu/Menu";
 import { useDispatch } from "react-redux";
-import { openCart } from "../../../redux/uiSlice";
+import { openCart, openSearch } from "../../../redux/uiSlice";
+import { useRouter } from "next/router";
 
 export const Navbar = () => {
   const [hamburgerIcon, setHamburgerIcon] = useState<Boolean>(false);
-  const [hideNavbar, setHideNavbar] = useState(false);
+  const [hideNavbar, setHideNavbar] = useState<Boolean>(false);
+  const [searchTerm, setSearchTerm] = useState('');
+  
   const dispactch = useDispatch();
+  const router = useRouter();
 
   useEffect(() => {
     function fixNav() {
@@ -22,6 +26,13 @@ export const Navbar = () => {
 
     window.addEventListener("scroll", fixNav);
   }, []);
+
+  const onSearchTerm = () => {
+    if(searchTerm.trim().length === 0) return;
+
+    router.push(`/search/${searchTerm}`);
+
+  }
 
   return (
     <nav className={`nav ${hideNavbar ? "hidden" : ""}`}>
@@ -60,8 +71,14 @@ export const Navbar = () => {
             <ul className="f jce aic">
               <li className="header__icons__search">
                 <div className="header__icons__search-form">
-                  <input type="text" placeholder="Search" />
-                  <button className="search-btn">
+                  <input 
+                  type="text" 
+                  placeholder="Search" 
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  onKeyPress={(e) => e.key === 'Enter' ? onSearchTerm() : null}
+                  />
+                  <button className="search-btn" onClick={()=>onSearchTerm()}>
                     <Image
                       src={"/icons/search.svg"}
                       alt="bag"
@@ -71,9 +88,11 @@ export const Navbar = () => {
                   </button>
                 </div>
               </li>
-              <li className="header__icons__search-movil">
-                <Link href={"/auth/login"} passHref>
-                  <a>
+              <li 
+              className="header__icons__search-movil"
+              onClick={() => dispactch(openSearch())}
+              >
+                
                     <div className="header__icons-img">
                       <Image
                         src={"/icons/search.svg"}
@@ -84,8 +103,7 @@ export const Navbar = () => {
                         objectFit="cover"
                       />
                     </div>
-                  </a>
-                </Link>
+                 
               </li>
               <li className="header__icons__account">
                 <Link href={"/auth/login"} passHref>

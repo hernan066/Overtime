@@ -2,10 +2,12 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface uiState {
   cartSideBar: boolean;
+  searchSideBar: boolean;
 }
 
 const initialState: uiState = {
   cartSideBar: false,
+  searchSideBar: false,
 };
 
 export const uiSlice = createSlice({
@@ -22,10 +24,16 @@ export const uiSlice = createSlice({
     closeCart: (state) => {
       state.cartSideBar = false;
     },
+    openSearch: (state) => {
+      state.searchSideBar = true;
+    },
+    closeSearch: (state) => {
+      state.searchSideBar = false;
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { openCart, closeCart } = uiSlice.actions;
+export const { openCart, closeCart, openSearch, closeSearch } = uiSlice.actions;
 
 export default uiSlice.reducer;
