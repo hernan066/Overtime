@@ -3,7 +3,7 @@
   top: 0px;
   left: 0px;
   z-index: 4;
-  transition: all 0.4s ;
+  transition: all 0.4s;
 }
 .hidden {
   transform: translateY(-100%);
@@ -17,10 +17,8 @@
   border-bottom: 1px solid #86868675;
   background-color: var(--bg-color);
   position: relative;
-  
 }
 .header__container {
-  min-height: 70px;
   padding: 0 20px;
   width: 100%;
   display: flex;
@@ -34,17 +32,29 @@
   top: 50%;
   transform: translate(-50%, -50%);
   cursor: pointer;
+  width: 190px;
+  height: 30px;
+}
+.header__logo__icon {
+  height: 100%;
+  width: 100%;
 }
 
 .header__icons__search-form {
-  width: 150px;
+  width: 200px;
   position: relative;
 
-  margin-right: 80px;
+  margin-right: 25px;
 }
 .header__icons__account,
-.header__icon__item--cart {
+.header__icon__item--cart,
+.header__icons__search-movil {
   width: 40px;
+}
+.header__icons-img {
+  height: 36px;
+  width: 36px;
+  position: relative;
 }
 
 .header__icon__item--cart {
@@ -61,6 +71,9 @@
   transition: border-color 0.4s;
   border: 1px solid var(--gray-color);
   font-size: 16px;
+}
+.header__icons__search-movil{
+  display: none;
 }
 .search-btn {
   position: absolute;
@@ -81,7 +94,7 @@
   height: 17px;
   position: absolute;
   top: -10px;
-  right: 0px;
+  right: -5px;
   background-color: #3ff;
   border-radius: 50%;
   color: #1e1e1e;
@@ -92,6 +105,57 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+@media screen and (max-width: 1020px) {
+  .header__inner {
+    height: 60px;
+  }
+
+  .header__icons__search-form {
+    display: none;
+  }
+  .header__icons__search-movil{
+    display: block;
+  }
+  .header__logo {
+    width: 148px;
+    height: 30px;
+  }
+  .header__icons-img {
+    height: 24px;
+    width: 24px;
+  }
+  .header__icons__account {
+    margin-right: 0px;
+  }
+  .header__container {
+    padding: 0 10px;
+  }
+  .header__icon__item--cart {
+    width: 32px;
+  }
+  .header__icons__account,
+.header__icon__item--cart,
+.header__icons__search-movil {
+  width: 35px;
+}
+}
+@media screen and (max-width: 550px) {
+  .header__container {
+    padding: 0 8px;
+  }
+  .header__icons__account,
+.header__icon__item--cart,
+.header__icons__search-movil {
+  width: 30px;
+}
+  
+  .header__logo {
+    
+    left: 40%;
+    top: 55%;
+    
+  }
 }
 
 //////////////////////animate hamburger icon////////////////////////////
@@ -121,4 +185,32 @@
 
 .hamburger.is-active .line:nth-child(3) {
   transform: translateY(-11px) rotate(-45deg);
+}
+@media screen and (max-width: 1020px) {
+  .hamburger .line {
+    width: 25px;
+    height: 3px;
+    margin: 6px auto;
+  }
+  .hamburger.is-active .line:nth-child(1) {
+    transform: translateY(9px) rotate(45deg);
+  }
+
+  .hamburger.is-active .line:nth-child(3) {
+    transform: translateY(-9px) rotate(-45deg);
+  }
+}
+@media screen and (max-width: 550px) {
+  .hamburger .line {
+    width: 20px;
+    height: 2px;
+    margin: 5px auto;
+  }
+  .hamburger.is-active .line:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+  }
+
+  .hamburger.is-active .line:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+  }
 }

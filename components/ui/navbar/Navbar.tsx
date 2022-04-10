@@ -48,6 +48,8 @@ export const Navbar = () => {
                     alt="bag"
                     width={187}
                     height={30}
+                    layout="responsive"
+                    objectFit="fill"
                   />
                 </span>
               </a>
@@ -69,15 +71,35 @@ export const Navbar = () => {
                   </button>
                 </div>
               </li>
+              <li className="header__icons__search-movil">
+                <Link href={"/auth/login"} passHref>
+                  <a>
+                    <div className="header__icons-img">
+                      <Image
+                        src={"/icons/search.svg"}
+                        alt="bag"
+                        width={36}
+                        height={36}
+                        layout="responsive"
+                        objectFit="cover"
+                      />
+                    </div>
+                  </a>
+                </Link>
+              </li>
               <li className="header__icons__account">
                 <Link href={"/auth/login"} passHref>
                   <a>
-                    <Image
-                      src={"/icons/account.svg"}
-                      alt="bag"
-                      width={36}
-                      height={36}
-                    />
+                    <div className="header__icons-img">
+                      <Image
+                        src={"/icons/account.svg"}
+                        alt="bag"
+                        width={36}
+                        height={36}
+                        layout="responsive"
+                        objectFit="cover"
+                      />
+                    </div>
                   </a>
                 </Link>
               </li>
@@ -86,14 +108,18 @@ export const Navbar = () => {
                 onClick={() => dispactch(openCart())}
                 style={{ cursor: "pointer" }}
               >
-                <Image
-                  src={"/icons/bag.svg"}
-                  alt="bag"
-                  width={36}
-                  height={36}
-                />
-
+                <div className="header__icons-img">
+                  <Image
+                    src={"/icons/bag.svg"}
+                    alt="bag"
+                    width={36}
+                    height={36}
+                    layout="responsive"
+                    objectFit="cover"
+                  />
                 <span className="header-cart-icon__count p2">2</span>
+                </div>
+
               </li>
             </ul>
           </div>

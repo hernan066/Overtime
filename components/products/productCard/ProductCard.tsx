@@ -26,6 +26,7 @@ export const ProductCard: FC<Props> = ({ product, idx }) => {
      if(!inView) {
      animation.start(item.hidden);
    }  
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inView]);
   
 
@@ -37,7 +38,7 @@ export const ProductCard: FC<Props> = ({ product, idx }) => {
      
       ref={ref}
     >
-      <Link href="/product/slug" passHref prefetch={false}>
+      <Link href={`/product/${product.slug}`} passHref prefetch={false}>
         <a>
           <div className="card__image-container">
             <div className="card__image-container-img1">
