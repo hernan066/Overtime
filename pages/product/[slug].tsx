@@ -5,7 +5,7 @@ import Link from "next/link";
 import { ShopLayout } from "../../components/layout/ShopLayout";
 import { ProductDetails } from "../../components/products/productDetails/ProductDetails";
 import { ProductSize } from "../../components/products/productSize/ProductSize";
-import { IProduct } from "../../interfaces/products";
+import { IProduct, ISize } from "../../interfaces/products";
 import { NextPage } from "next";
 import { GetStaticPaths } from "next";
 import {
@@ -13,16 +13,37 @@ import {
   getProductBySlug,
 } from "../../database/dbProducts";
 import { GetStaticProps } from "next";
+import { useState } from "react";
+import { ICartProduct } from "../../interfaces/cart";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../../redux/cartSlice";
 
 interface Props {
   product: IProduct;
 }
 
 const ProductPage: NextPage<Props> = ({ product }) => {
-  /* const router = useRouter();
-  const { products: product, isLoading} = useProducts(`/products/${router.query.slug}`);
+  
+  const dispatch = useDispatch();
+  
+  const [tempCartProduct, setTempCartProduct] = useState<ICartProduct>({
+    _id: product._id,
+    image: product.images[0],
+    price: product.price,
+    size: undefined,
+    slug: product.slug,
+    title: product.title,
+    gender: product.gender,
+    type: product.type,
+    quantity: 1,
+  });
 
-  if(isLoading) return <p>Loading...</p>; */
+  const selectedSize = ( size: ISize ) => {
+    setTempCartProduct( currentProduct => ({
+      ...currentProduct,
+      size
+    }));
+  }
 
   return (
     <ShopLayout title={product.title} pageDescription={product.description}>
@@ -62,9 +83,20 @@ const ProductPage: NextPage<Props> = ({ product }) => {
             </div>
             <ProductSize
               sizes={product.sizes}
-              selectedSize={product.sizes[0]}
+              selectedSize={tempCartProduct.size}
+              onSelectedSize={selectedSize}
             />
-            <button className="btn">add to cart</button>
+            {tempCartProduct.size ? (
+              <button className="btn" onClick={()=> dispatch(addToCart(tempCartProduct))}>add to cart</button>
+            ) : (
+              <button
+                className="btn"
+                disabled
+                style={{ background: "transparent" }}
+              >
+                Select size
+              </button>
+            )}
 
             <ProductDetails product={product} />
           </div>
