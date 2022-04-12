@@ -21,15 +21,29 @@ export const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
-    addToCart: (state, action: PayloadAction<ICartProduct>) => {
+    addToCart: (state, action) => {
       state.cart = [...state.cart, action.payload];
       state.numberOfItems = state.numberOfItems + 1;
       state.subTotal = state.subTotal + action.payload.totalPrice;
       state.total = state.subTotal + state.tax;
-
     },
+    updateCart: (state, action) => {
+      state.cart =  action.payload;
+      console.log(action.payload);
+      state.numberOfItems = state.numberOfItems + 1;
+      //revisar estos que quedan null
+      state.subTotal = state.subTotal + action.payload.totalPrice;
+      state.total = state.subTotal + state.tax;
+    },
+    
     deleteProduct: (state, action: PayloadAction<ICartProduct>) => {
-      state.cart = state.cart.filter( product => !(product._id === action.payload._id && product.size === action.payload.size ))
+      state.cart = state.cart.filter(
+        (product) =>
+          !(
+            product._id === action.payload._id &&
+            product.size === action.payload.size
+          )
+      );
       state.numberOfItems = state.numberOfItems - 1;
       state.subTotal = state.subTotal - action.payload.totalPrice;
       state.total = state.subTotal + state.tax;
@@ -37,6 +51,6 @@ export const cartSlice = createSlice({
   },
 });
 
-export const { addToCart, deleteProduct } = cartSlice.actions;
+export const { addToCart, deleteProduct, updateCart } = cartSlice.actions;
 
 export default cartSlice.reducer;

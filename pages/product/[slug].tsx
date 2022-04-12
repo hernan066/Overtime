@@ -15,18 +15,22 @@ import {
 import { GetStaticProps } from "next";
 import { useState } from "react";
 import { ICartProduct } from "../../interfaces/cart";
-import { useDispatch } from "react-redux";
-import { addToCart } from "../../redux/cartSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { addToCart, updateCart } from "../../redux/cartSlice";
 import { QueantitySelector } from "../../components/products/quantitySelector/QueantitySelector";
+import { RootState } from "../../redux/store";
 
 interface Props {
   product: IProduct;
 }
 
 const ProductPage: NextPage<Props> = ({ product }) => {
-  
   const dispatch = useDispatch();
-  
+
+  const cart = useSelector((state: RootState) => state.cart.cart);
+
+  console.log(cart);
+
   const [tempCartProduct, setTempCartProduct] = useState<ICartProduct>({
     _id: product._id,
     image: product.images[0],
@@ -38,24 +42,52 @@ const ProductPage: NextPage<Props> = ({ product }) => {
     type: product.type,
     quantity: 1,
     totalPrice: product.price,
-   
   });
 
-  const selectedSize = ( size: ISize ) => {
-    setTempCartProduct( currentProduct => ({
+  const selectedSize = (size: ISize) => {
+    setTempCartProduct((currentProduct) => ({
       ...currentProduct,
-      size
+      size,
     }));
-  }
-  const onUpdateQuantity = ( quantity: number ) => {
-    setTempCartProduct( currentProduct => ({
+  };
+  const onUpdateQuantity = (quantity: number) => {
+    setTempCartProduct((currentProduct) => ({
       ...currentProduct,
       quantity,
-      totalPrice: currentProduct.price * quantity
+      totalPrice: currentProduct.price * quantity,
     }));
-  }
+  };
 
-  console.log(tempCartProduct)
+  const addProductToCart = (product: ICartProduct) => {
+    //buscar id repetido
+    const productInCart = cart.some((p) => p._id === product._id);
+    //si no esta en el carrito, lo agregamos
+    if (!productInCart) return dispatch(addToCart(product));
+
+    //si esta en el carrito, buscamos si tiene el mismo talle
+    const productInCartButDifferentSize = cart.some(
+      (p) => p._id === product._id && p.size === product.size
+    );
+    //si no tiene el mismo talle, lo agregamos
+    if (!productInCartButDifferentSize) return dispatch(addToCart(product));
+
+    //si llega aqui tienen el mismo id y el mismo talle, asi que los acumulamos
+    const updatedProducts = cart.map((p) => {
+      if (p._id !== product._id) return p;
+      if (p.size !== product.size) return p;
+
+      // Actualizar la cantidad
+
+      return {
+        ...p,
+        quantity: p.quantity + product.quantity,
+        totalPrice: p.totalPrice + product.totalPrice,
+      };
+    });
+
+    console.log(updatedProducts);
+    dispatch(updateCart( updatedProducts ) );
+  };
 
   return (
     <ShopLayout title={product.title} pageDescription={product.description}>
@@ -87,33 +119,34 @@ const ProductPage: NextPage<Props> = ({ product }) => {
             <span className="product__description-price">${product.price}</span>
             <div className="product__description-promotion">
               <p>
-                4 interest-free payments of ${product.price / 4} with <strong>Klarna</strong>.
+                4 interest-free payments of ${product.price / 4} with{" "}
+                <strong>Klarna</strong>.
               </p>
               <Link href="#" passHref>
                 <a>Learn more</a>
               </Link>
             </div>
-            
-            <QueantitySelector 
-              currentValue={ tempCartProduct.quantity }
-              maxValue={ product.inStock > 10 ? 10: product.inStock }
-              updatedQuantity={ onUpdateQuantity  }
+
+            <QueantitySelector
+              currentValue={tempCartProduct.quantity}
+              maxValue={product.inStock > 10 ? 10 : product.inStock}
+              updatedQuantity={onUpdateQuantity}
             />
-            
-            
+
             <ProductSize
               sizes={product.sizes}
               selectedSize={tempCartProduct.size}
               onSelectedSize={selectedSize}
             />
             {tempCartProduct.size ? (
-              <button className="btn" onClick={()=> dispatch(addToCart(tempCartProduct))}>add to cart</button>
-            ) : (
               <button
                 className="btn"
-                disabled
-                style={{ background: "#ccc",   }}
+                onClick={() => addProductToCart(tempCartProduct)}
               >
+                add to cart
+              </button>
+            ) : (
+              <button className="btn" disabled style={{ background: "#ccc" }}>
                 Select size
               </button>
             )}
