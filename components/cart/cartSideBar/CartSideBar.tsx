@@ -50,10 +50,13 @@ export const CartSideBar = () => {
 
           {cart.length > 0 ? (
             <>
-              <div className="card__main-container">
+              <div className="card__main-overflow">
+                <div className="card__main-container">
+
                 {cart.map((item: ICartProduct) => (
                   <CartItem key={item._id} product={item} />
                 ))}
+                </div>
               </div>
 
               <div className="cart__checkout-container">

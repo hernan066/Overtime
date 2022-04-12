@@ -22,7 +22,8 @@
 .cart__wrapper {
   margin-left: auto;
   margin-right: auto;
-  display: block;
+  display: flex;
+  flex-direction: column;
   z-index: 1;
   border: 0.0625rem solid var(--black-color);
   border-radius: 0.625rem;
@@ -53,7 +54,7 @@
   font-size: 1rem;
   font-weight: 700;
 }
-
+/////////////////////////cart empty////////////////////////////
 .cart__main {
   height: 100%;
   width: 100%;
@@ -78,40 +79,44 @@
   background-color: var(--primary-color);
   color: var(--black-color);
 }
-
-.card__main-container{
+//////////////////////////cart main/////////////////////////////////
+.card__main-overflow{
+  overflow-y: auto;
+  /*Estilos estándar experimentales (Principalmente Firefox)*/
+  scrollbar-color: rgba(0, 0, 0, .5) rgba(0, 0, 0, 0);
+  scrollbar-width: thin;
+  flex: 1;
  
- overflow-y: scroll;
- height: 55vh;
- /*Estilos estándar experimentales (Principalmente Firefox)*/
- scrollbar-color: rgba(0, 0, 0, .5) rgba(0, 0, 0, 0);
- scrollbar-width: thin;
 }
-
+.card__main-container{
+  display: flex;
+flex-direction: column;
+height: calc(100vh - 285px);
+}
 //////////scrollbar////////////
-.card__main-container::-webkit-scrollbar {
+.card__main-overflow::-webkit-scrollbar {
   -webkit-appearance: none;
 }
 
-.card__main-container::-webkit-scrollbar:vertical {
+.card__main-overflow::-webkit-scrollbar:vertical {
   width:10px;
 }
 
-.card__main-container::-webkit-scrollbar-button:increment,.card__main-container::-webkit-scrollbar-button {
+.card__main-overflow::-webkit-scrollbar-button:increment,.card__main-overflow::-webkit-scrollbar-button {
   display: none;
 } 
 
-.card__main-container::-webkit-scrollbar:horizontal {
+.card__main-overflow::-webkit-scrollbar:horizontal {
   height: 10px;
 }
 
-.card__main-container::-webkit-scrollbar-thumb {
+.card__main-overflow::-webkit-scrollbar-thumb {
   background-color: #e1e1e1;
   border-radius: 20px;
   border: 2px solid #f1f2f3;
 }
 
-.card__main-container::-webkit-scrollbar-track {
+.card__main-overflow::-webkit-scrollbar-track {
   border-radius: 10px;  
 }
 
@@ -180,17 +185,16 @@
   align-items: flex-end;
   padding: 5px 0;
 }
-/* .cart__item-aside span {
-  padding-top: 3px;
-} */
+
 .cart__item-remove-icon {
    
     cursor: pointer;
 }
 
 .cart__checkout-container {
-  position: sticky;
+  position: static;
   bottom: 0;
+  left: 0;
   padding: 20px;
   width: 100%;
   text-align: center;
@@ -207,7 +211,9 @@
   font-size: 1.125rem;
   width: 100%;
   font-family: "Oswald", sans-serif;
-}
+  
+} 
+
 .cart__checkout-subtotal span {
   text-transform: uppercase;
   padding-bottom: 20px;
