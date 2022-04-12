@@ -60,6 +60,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow-x: auto;
 }
 .cart__main p {
   font-family: "Helvitica Neue", sans-serif;
@@ -77,30 +78,79 @@
   background-color: var(--primary-color);
   color: var(--black-color);
 }
+
+.card__main-container{
+ 
+ overflow-y: scroll;
+ height: 55vh;
+ /*Estilos estándar experimentales (Principalmente Firefox)*/
+ scrollbar-color: rgba(0, 0, 0, .5) rgba(0, 0, 0, 0);
+ scrollbar-width: thin;
+}
+
+//////////scrollbar////////////
+.card__main-container::-webkit-scrollbar {
+  -webkit-appearance: none;
+}
+
+.card__main-container::-webkit-scrollbar:vertical {
+  width:10px;
+}
+
+.card__main-container::-webkit-scrollbar-button:increment,.card__main-container::-webkit-scrollbar-button {
+  display: none;
+} 
+
+.card__main-container::-webkit-scrollbar:horizontal {
+  height: 10px;
+}
+
+.card__main-container::-webkit-scrollbar-thumb {
+  background-color: #e1e1e1;
+  border-radius: 20px;
+  border: 2px solid #f1f2f3;
+}
+
+.card__main-container::-webkit-scrollbar-track {
+  border-radius: 10px;  
+}
+
+
+
+
+//////////////////////////////
 .cart__item-container {
   display: flex;
-  padding: 15px 0;
+  margin: 0 15px;
   justify-content: space-between;
   align-items: flex-start;
-  padding: 0 1.25rem ;
-  height: 105px;
-  width: 100%;
+  padding: 15px 0;
+  height: 130px;
+  width: 93%;
   font-family: "Helvitica Neue", sans-serif;
-  margin-bottom: 20px;
+ 
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+ 
 }
 .cart__item-details {
   flex-grow: 1;
+  height: 100%;
   margin-left: 15px;
+  
 }
 .cart__item-details h4 {
   font-family: "Oswald", sans-serif;
   font-size: 1.125rem;
   text-transform: uppercase;
+  margin-bottom: 10px;
 }
 .cart__item-details span {
   color: var(--gray-dark-color);
   text-transform: capitalize;
-  font-size: 1.125rem;
+  font-size: 1rem;
+  
+ line-height: 30px;
 }
 
 .quantity-selector {
@@ -139,13 +189,14 @@
 }
 
 .cart__checkout-container {
-  position: absolute;
+  position: sticky;
   bottom: 0;
   padding: 20px;
   width: 100%;
   text-align: center;
   border-top: 1px solid #1e1e1e;
-  z-index: 6;
+  z-index: 8;
+  background-color: var(--bg-color);
   
 }
 

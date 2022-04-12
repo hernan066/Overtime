@@ -50,9 +50,12 @@ export const CartSideBar = () => {
 
           {cart.length > 0 ? (
             <>
-              {cart.map((item: ICartProduct) => (
-                <CartItem key={item._id} product={item} />
-              ))}
+              <div className="card__main-container">
+                {cart.map((item: ICartProduct) => (
+                  <CartItem key={item._id} product={item} />
+                ))}
+              </div>
+
               <div className="cart__checkout-container">
                 <div className="cart__checkout-subtotal">
                   <span>Subtotal:</span>

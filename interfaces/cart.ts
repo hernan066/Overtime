@@ -10,4 +10,5 @@ export interface ICartProduct {
     gender: 'men'|'women'|'kid'|'unisex';
     type: IType;
     quantity: number;
+    totalPrice: number;
 }

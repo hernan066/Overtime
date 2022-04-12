@@ -3,15 +3,18 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Menu } from "../menu/Menu";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { openCart, openSearch } from "../../../redux/uiSlice";
 import { useRouter } from "next/router";
+import { RootState } from "../../../redux/store";
 
 export const Navbar = () => {
   const [hamburgerIcon, setHamburgerIcon] = useState<Boolean>(false);
   const [hideNavbar, setHideNavbar] = useState<Boolean>(false);
-  const [searchTerm, setSearchTerm] = useState('');
-  
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const { numberOfItems } = useSelector((state: RootState) => state.cart);
+
   const dispactch = useDispatch();
   const router = useRouter();
 
@@ -28,11 +31,10 @@ export const Navbar = () => {
   }, []);
 
   const onSearchTerm = () => {
-    if(searchTerm.trim().length === 0) return;
+    if (searchTerm.trim().length === 0) return;
 
     router.push(`/search/${searchTerm}`);
-
-  }
+  };
 
   return (
     <nav className={`nav ${hideNavbar ? "hidden" : ""}`}>
@@ -71,14 +73,16 @@ export const Navbar = () => {
             <ul className="f jce aic">
               <li className="header__icons__search">
                 <div className="header__icons__search-form">
-                  <input 
-                  type="text" 
-                  placeholder="Search" 
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  onKeyPress={(e) => e.key === 'Enter' ? onSearchTerm() : null}
+                  <input
+                    type="text"
+                    placeholder="Search"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    onKeyPress={(e) =>
+                      e.key === "Enter" ? onSearchTerm() : null
+                    }
                   />
-                  <button className="search-btn" onClick={()=>onSearchTerm()}>
+                  <button className="search-btn" onClick={() => onSearchTerm()}>
                     <Image
                       src={"/icons/search.svg"}
                       alt="bag"
@@ -88,22 +92,20 @@ export const Navbar = () => {
                   </button>
                 </div>
               </li>
-              <li 
-              className="header__icons__search-movil"
-              onClick={() => dispactch(openSearch())}
+              <li
+                className="header__icons__search-movil"
+                onClick={() => dispactch(openSearch())}
               >
-                
-                    <div className="header__icons-img">
-                      <Image
-                        src={"/icons/search.svg"}
-                        alt="bag"
-                        width={36}
-                        height={36}
-                        layout="responsive"
-                        objectFit="cover"
-                      />
-                    </div>
-                 
+                <div className="header__icons-img">
+                  <Image
+                    src={"/icons/search.svg"}
+                    alt="bag"
+                    width={36}
+                    height={36}
+                    layout="responsive"
+                    objectFit="cover"
+                  />
+                </div>
               </li>
               <li className="header__icons__account">
                 <Link href={"/auth/login"} passHref>
@@ -135,9 +137,13 @@ export const Navbar = () => {
                     layout="responsive"
                     objectFit="cover"
                   />
-                <span className="header-cart-icon__count p2">2</span>
-                </div>
 
+                  {numberOfItems > 0 && (
+                    <span className="header-cart-icon__count p2">
+                      {numberOfItems}
+                    </span>
+                  )}
+                </div>
               </li>
             </ul>
           </div>

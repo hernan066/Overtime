@@ -17,6 +17,7 @@ import { useState } from "react";
 import { ICartProduct } from "../../interfaces/cart";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../redux/cartSlice";
+import { QueantitySelector } from "../../components/products/quantitySelector/QueantitySelector";
 
 interface Props {
   product: IProduct;
@@ -36,6 +37,8 @@ const ProductPage: NextPage<Props> = ({ product }) => {
     gender: product.gender,
     type: product.type,
     quantity: 1,
+    totalPrice: product.price,
+   
   });
 
   const selectedSize = ( size: ISize ) => {
@@ -44,6 +47,15 @@ const ProductPage: NextPage<Props> = ({ product }) => {
       size
     }));
   }
+  const onUpdateQuantity = ( quantity: number ) => {
+    setTempCartProduct( currentProduct => ({
+      ...currentProduct,
+      quantity,
+      totalPrice: currentProduct.price * quantity
+    }));
+  }
+
+  console.log(tempCartProduct)
 
   return (
     <ShopLayout title={product.title} pageDescription={product.description}>
@@ -75,12 +87,20 @@ const ProductPage: NextPage<Props> = ({ product }) => {
             <span className="product__description-price">${product.price}</span>
             <div className="product__description-promotion">
               <p>
-                4 interest-free payments of $16.25 with <strong>Klarna</strong>.
+                4 interest-free payments of ${product.price / 4} with <strong>Klarna</strong>.
               </p>
               <Link href="#" passHref>
                 <a>Learn more</a>
               </Link>
             </div>
+            
+            <QueantitySelector 
+              currentValue={ tempCartProduct.quantity }
+              maxValue={ product.inStock > 10 ? 10: product.inStock }
+              updatedQuantity={ onUpdateQuantity  }
+            />
+            
+            
             <ProductSize
               sizes={product.sizes}
               selectedSize={tempCartProduct.size}
@@ -92,7 +112,7 @@ const ProductPage: NextPage<Props> = ({ product }) => {
               <button
                 className="btn"
                 disabled
-                style={{ background: "transparent" }}
+                style={{ background: "#ccc",   }}
               >
                 Select size
               </button>
