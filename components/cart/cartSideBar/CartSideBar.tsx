@@ -5,6 +5,10 @@ import { RootState } from "../../../redux/store";
 import { CartItem } from "./CartItem";
 import { CartEmpty } from "./CartEmpty";
 import { ICartProduct } from "../../../interfaces/cart";
+import { useEffect } from "react";
+
+import Cookie from "js-cookie";
+import { addToCart, loadCookies } from "../../../redux/cartSlice";
 
 const cartVariants = {
   hidden: { x: 600 },
@@ -19,8 +23,12 @@ const overlayVariants = {
 
 export const CartSideBar = () => {
   const dispatch = useDispatch();
-  const { cart, subTotal } = useSelector((state: RootState) => state.cart);
+  const {cart, subTotal} = useSelector((state: RootState) => state.cart);
 
+  
+  
+  
+  
   return (
     <>
       <motion.div
@@ -54,7 +62,7 @@ export const CartSideBar = () => {
                 <div className="card__main-container">
 
                 {cart.map((item: ICartProduct) => (
-                  <CartItem key={item._id} product={item} />
+                  <CartItem key={item.slug + item.size} product={item} />
                 ))}
                 </div>
               </div>

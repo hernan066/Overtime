@@ -13,12 +13,14 @@ import {
   getProductBySlug,
 } from "../../database/dbProducts";
 import { GetStaticProps } from "next";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ICartProduct } from "../../interfaces/cart";
 import { useDispatch, useSelector } from "react-redux";
-import { addToCart, updateCart } from "../../redux/cartSlice";
+import { addToCart, loadCookies, updateCart } from "../../redux/cartSlice";
 import { QueantitySelector } from "../../components/products/quantitySelector/QueantitySelector";
 import { RootState } from "../../redux/store";
+import { openCart } from "../../redux/uiSlice";
+import Cookie from "js-cookie";
 
 interface Props {
   product: IProduct;
@@ -28,8 +30,6 @@ const ProductPage: NextPage<Props> = ({ product }) => {
   const dispatch = useDispatch();
 
   const cart = useSelector((state: RootState) => state.cart.cart);
-
-  console.log(cart);
 
   const [tempCartProduct, setTempCartProduct] = useState<ICartProduct>({
     _id: product._id,
@@ -85,10 +85,24 @@ const ProductPage: NextPage<Props> = ({ product }) => {
       };
     });
 
-    console.log(updatedProducts);
-    dispatch(updateCart( updatedProducts ) );
+    dispatch(updateCart(updatedProducts));
   };
 
+  
+  useEffect(() => {
+    const cookiesProduct = Cookie.get("cart") ? JSON.parse(Cookie.get("cart")!) : [];
+     dispatch(loadCookies(cookiesProduct));
+   }, [])
+   
+   
+   
+   useEffect(() => {
+    Cookie.set("cart", JSON.stringify(cart));
+   }, [cart])
+  
+  
+  
+  
   return (
     <ShopLayout title={product.title} pageDescription={product.description}>
       <div className="product__container">
@@ -141,7 +155,10 @@ const ProductPage: NextPage<Props> = ({ product }) => {
             {tempCartProduct.size ? (
               <button
                 className="btn"
-                onClick={() => addProductToCart(tempCartProduct)}
+                onClick={() => {
+                  addProductToCart(tempCartProduct);
+                  dispatch(openCart());
+                }}
               >
                 add to cart
               </button>

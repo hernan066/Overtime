@@ -7,7 +7,12 @@ import "../styles/styles.scss";
 import { AnimatePresence } from "framer-motion";
 import { SWRConfig } from "swr";
 
+
 function MyApp({ Component, pageProps, router }: AppProps) {
+  
+  
+  
+  
   return (
     <SWRConfig
       value={{

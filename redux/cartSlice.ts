@@ -28,14 +28,18 @@ export const cartSlice = createSlice({
       state.total = state.subTotal + state.tax;
     },
     updateCart: (state, action) => {
-      state.cart =  action.payload;
-      console.log(action.payload);
+      state.cart = action.payload;
+
       state.numberOfItems = state.numberOfItems + 1;
-      //revisar estos que quedan null
-      state.subTotal = state.subTotal + action.payload.totalPrice;
+
+      const totalPrice = state.cart.reduce((acc, cur) => {
+        return acc + cur.totalPrice;
+      }, 0);
+
+      state.subTotal = totalPrice;
       state.total = state.subTotal + state.tax;
     },
-    
+
     deleteProduct: (state, action: PayloadAction<ICartProduct>) => {
       state.cart = state.cart.filter(
         (product) =>
@@ -44,13 +48,35 @@ export const cartSlice = createSlice({
             product.size === action.payload.size
           )
       );
-      state.numberOfItems = state.numberOfItems - 1;
+
+      const numberOfItems = state.cart.reduce((acc, cur) => {
+        return acc + cur.quantity;
+      }, 0);
+
+      state.numberOfItems = numberOfItems;
       state.subTotal = state.subTotal - action.payload.totalPrice;
       state.total = state.subTotal + state.tax;
     },
+
+    loadCookies: (state, action) => {
+      state.cart = action.payload;
+
+      const numberOfItems = state.cart.reduce((acc, cur) => {
+        return acc + cur.quantity;
+      }, 0);
+
+      state.numberOfItems = numberOfItems;
+
+      const totalPrice = state.cart.reduce((acc, cur) => {
+        return acc + cur.totalPrice;
+      }, 0);
+
+      state.subTotal = totalPrice;
+      state.total = state.subTotal + state.tax;
+    }
   },
 });
 
-export const { addToCart, deleteProduct, updateCart } = cartSlice.actions;
+export const { addToCart, deleteProduct, updateCart, loadCookies } = cartSlice.actions;
 
 export default cartSlice.reducer;
