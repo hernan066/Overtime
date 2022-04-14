@@ -1,6 +1,6 @@
 import { animations, motion } from "framer-motion";
 import Image from "next/image";
-import { initialMenuData } from "../../../database/products";
+import { initialMenuData } from "../../../database/seed-data";
 
 const menuVariants = {
   initial:{
