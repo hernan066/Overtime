@@ -4,15 +4,35 @@ import { useDispatch } from "react-redux";
 
 import { ICartProduct } from "../../../interfaces/cart";
 import { deleteProduct } from "../../../redux/cartSlice";
+import { motion } from "framer-motion";
 
 interface Props {
   product: ICartProduct;
+  idx: number;
 }
 
-export const CartItem: FC<Props> = ({ product }) => {
+export const CartItem: FC<Props> = ({ product, idx }) => {
+  
+  const cartItemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.4, delay: 0.3 * (idx+1) },
+    },
+    exit: { opacity: 0, transition: { duration: 0.4 }, },
+  };
+
   const dispatch = useDispatch();
+
   return (
-    <div className="cart__item-container">
+    <motion.div
+      className="cart__item-container"
+      variants={cartItemVariants}
+      initial="hidden"
+      animate="visible"
+      exit="exit" 
+    >
       <div className="cart__item-img">
         <Image
           src={`/products/${product.image}`}
@@ -38,6 +58,6 @@ export const CartItem: FC<Props> = ({ product }) => {
           <Image src="/icons/delete.svg" alt="trash" width={20} height={20} />
         </button>
       </div>
-    </div>
+    </motion.div>
   );
 };

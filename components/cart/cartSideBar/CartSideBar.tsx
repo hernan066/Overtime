@@ -1,19 +1,15 @@
 import { useDispatch, useSelector } from "react-redux";
 import { closeCart } from "../../../redux/uiSlice";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { RootState } from "../../../redux/store";
 import { CartItem } from "./CartItem";
 import { CartEmpty } from "./CartEmpty";
 import { ICartProduct } from "../../../interfaces/cart";
-import { useEffect } from "react";
-
-import Cookie from "js-cookie";
-import { addToCart, loadCookies } from "../../../redux/cartSlice";
 
 const cartVariants = {
   hidden: { x: 600 },
-  visible: { x: 0 },
-  exit: { x: 600 },
+  visible: { x: 0, transition: { ease: "easeInOut" } },
+  exit: { x: 600, transition: { ease: "easeInOut" } },
 };
 const overlayVariants = {
   hidden: { opacity: 0 },
@@ -23,12 +19,8 @@ const overlayVariants = {
 
 export const CartSideBar = () => {
   const dispatch = useDispatch();
-  const {cart, subTotal} = useSelector((state: RootState) => state.cart);
+  const { cart, subTotal } = useSelector((state: RootState) => state.cart);
 
-  
-  
-  
-  
   return (
     <>
       <motion.div
@@ -60,10 +52,15 @@ export const CartSideBar = () => {
             <>
               <div className="card__main-overflow">
                 <div className="card__main-container">
-
-                {cart.map((item: ICartProduct) => (
-                  <CartItem key={item.slug + item.size} product={item} />
-                ))}
+                  <AnimatePresence >
+                    {cart.map((item: ICartProduct, idx: number) => (
+                      <CartItem
+                        key={item.slug + item.size}
+                        product={item}
+                        idx={idx}
+                      />
+                    ))}
+                  </AnimatePresence>
                 </div>
               </div>
 
@@ -81,7 +78,9 @@ export const CartSideBar = () => {
               </div>
             </>
           ) : (
-            <CartEmpty />
+            <AnimatePresence exitBeforeEnter  >
+              <CartEmpty />
+            </AnimatePresence>
           )}
         </motion.div>
       </div>

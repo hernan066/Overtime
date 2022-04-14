@@ -89,10 +89,10 @@ const ProductPage: NextPage<Props> = ({ product }) => {
   };
 
   
-  useEffect(() => {
+  /* useEffect(() => {
     const cookiesProduct = Cookie.get("cart") ? JSON.parse(Cookie.get("cart")!) : [];
      dispatch(loadCookies(cookiesProduct));
-   }, [])
+   }, []) */
    
    
    
@@ -119,6 +119,7 @@ const ProductPage: NextPage<Props> = ({ product }) => {
               height={380}
               layout="responsive"
               objectFit="cover"
+              
             />
           </div>
         </motion.div>

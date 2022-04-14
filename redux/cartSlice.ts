@@ -17,6 +17,8 @@ const initialState: uiState = {
   total: 0,
 };
 
+const taxRate = Number(process.env.NEXT_PUBLIC_TAX_RATE);
+
 export const cartSlice = createSlice({
   name: "cart",
   initialState,
@@ -25,6 +27,7 @@ export const cartSlice = createSlice({
       state.cart = [...state.cart, action.payload];
       state.numberOfItems = state.numberOfItems + 1;
       state.subTotal = state.subTotal + action.payload.totalPrice;
+      state.tax = state.subTotal * taxRate;
       state.total = state.subTotal + state.tax;
     },
     updateCart: (state, action) => {
@@ -37,6 +40,7 @@ export const cartSlice = createSlice({
       }, 0);
 
       state.subTotal = totalPrice;
+      state.tax = state.subTotal * taxRate;
       state.total = state.subTotal + state.tax;
     },
 
@@ -55,6 +59,7 @@ export const cartSlice = createSlice({
 
       state.numberOfItems = numberOfItems;
       state.subTotal = state.subTotal - action.payload.totalPrice;
+      state.tax = state.subTotal * taxRate;
       state.total = state.subTotal + state.tax;
     },
 
@@ -72,6 +77,7 @@ export const cartSlice = createSlice({
       }, 0);
 
       state.subTotal = totalPrice;
+      state.tax = state.subTotal * taxRate;
       state.total = state.subTotal + state.tax;
     }
   },
