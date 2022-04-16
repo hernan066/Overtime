@@ -9,6 +9,8 @@ import { AnimatePresence, motion } from "framer-motion";
 import { SearchSideBar } from "../products/productSearchSideBar/SearchSideBar";
 import Cookies from "js-cookie";
 import { loadCookies } from "../../redux/cartSlice";
+import shopApi from "../../api/shopApi";
+import { login } from "../../redux/userSlice";
 
 interface Props {
   title: string;
@@ -29,13 +31,31 @@ export const ShopLayout: FC<Props> = ({
 
   const dispatch = useDispatch();
 
-  
   //recupero las cookies en la parte mas alta de la aplicacion
   useEffect(() => {
     const cookiesProduct = Cookies.get("cart")
       ? JSON.parse(Cookies.get("cart")!)
       : [];
     dispatch(loadCookies(cookiesProduct));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  //revalido tokken
+
+  const revalidate = async () => {
+    try {
+      const { data } = await shopApi.get("/user/validate-token");
+      const { token, user } = data;
+      Cookies.set("token", token);
+      dispatch(login(user));
+    } catch (error) {
+      Cookies.remove("token");
+    }
+  };
+
+  useEffect(() => {
+    revalidate();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

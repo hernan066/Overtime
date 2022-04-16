@@ -1,8 +1,13 @@
+import Cookies from "js-cookie";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
 import shopApi from "../../api/shopApi";
 import { ShopLayout } from "../../components/layout/ShopLayout";
-import { isEmail } from '../../utils/validations';
+import { isEmail } from "../../utils/validations";
+import { useState } from "react";
+import { useRouter } from "next/router";
+import { login } from "../../redux/userSlice";
 
 type Inputs = {
   email: string;
@@ -16,17 +21,26 @@ const LoginPage = () => {
     formState: { errors },
   } = useForm<Inputs>();
 
-  
+  const dispatch = useDispatch();
+  const router = useRouter();
 
-  const onLogin = async ({email, password}: Inputs) => {
+  const [error, setError] = useState(false);
+
+  const onLogin = async ({ email, password }: Inputs) => {
     try {
-     
-      const { data } = await shopApi.post('/user/login', { email, password });
+      const { data } = await shopApi.post("/user/login", { email, password });
       const { token, user } = data;
-      console.log(token, user);
+
+      Cookies.set("token", token);
+      dispatch(login(user));
+      
+      setError(false);
+      router.replace("/");
     
     } catch (error) {
-        console.log(error);
+    
+      console.log(error);
+      setError(true);
     }
   };
 
@@ -35,6 +49,10 @@ const LoginPage = () => {
       <div className="login__main">
         <div className="login__container">
           <h1>LOG IN</h1>
+          {error && (
+            <span className="form-error">Email or password invalid!</span>
+          )}
+
           <form onSubmit={handleSubmit(onLogin)} noValidate>
             <div className="form-control">
               <input
@@ -42,8 +60,7 @@ const LoginPage = () => {
                 placeholder="Enter your email address"
                 {...register("email", {
                   required: "Is required!",
-                  validate: (value) => isEmail(value)
-
+                  validate: (value) => isEmail(value),
                 })}
               />
               <span className="form-error">{errors.email?.message}</span>
@@ -65,7 +82,10 @@ const LoginPage = () => {
               Login
             </button>
             <p className="text">
-              Don&apos;t have an account? <Link href="/auth/register" passHref><a >Register</a></Link> 
+              Don&apos;t have an account?{" "}
+              <Link href="/auth/register" passHref>
+                <a>Register</a>
+              </Link>
             </p>
             <Link href="/auth/register" passHref>
               <a>Forgot your password?</a>

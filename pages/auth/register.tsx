@@ -3,6 +3,12 @@ import { ShopLayout } from "../../components/layout/ShopLayout";
 import { useForm } from "react-hook-form";
 import shopApi from "../../api/shopApi";
 import { isEmail } from "../../utils/validations";
+import { useDispatch } from "react-redux";
+import { useRouter } from "next/router";
+import { useState } from "react";
+import Cookies from "js-cookie";
+import { login } from "../../redux/userSlice";
+import axios from "axios";
 
 type Inputs = {
   name: string;
@@ -17,9 +23,14 @@ const RegisterPage = () => {
     formState: { errors },
   } = useForm<Inputs>();
 
+  const dispatch = useDispatch();
+  const router = useRouter();
+
+  const [error, setError] = useState<{ errorStatus: boolean; message: string }>(
+    { errorStatus: false, message: "" }
+  );
+
   const onRegister = async ({ name, email, password }: Inputs) => {
-    console.log(name, email, password);
-    
     try {
       const { data } = await shopApi.post("/user/register", {
         name,
@@ -28,8 +39,17 @@ const RegisterPage = () => {
       });
       const { token, user } = data;
       console.log(token, user);
+      Cookies.set("token", token);
+      dispatch(login(user));
+
+      setError({ ...error, errorStatus: false });
+      router.replace("/");
     } catch (error) {
-      console.log(error);
+      if (axios.isAxiosError(error)) {
+        setError({ errorStatus: true, message: error.response?.data.message });
+      } else {
+        setError({ errorStatus: true, message: "Something went wrong" });
+      }
     }
   };
 
@@ -40,7 +60,11 @@ const RegisterPage = () => {
           <h1>SIGN UP</h1>
 
           <p>Create an account for faster checkout.</p>
-          
+
+          {error.errorStatus && (
+            <span className="form-error">{error.message}</span>
+          )}
+
           <form onSubmit={handleSubmit(onRegister)} noValidate>
             <div className="form-control">
               <input
@@ -62,7 +86,7 @@ const RegisterPage = () => {
                   validate: (value) => isEmail(value),
                 })}
               />
-               <span className="form-error">{errors.email?.message}</span>
+              <span className="form-error">{errors.email?.message}</span>
             </div>
 
             <div className="form-control">
