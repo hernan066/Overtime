@@ -214,3 +214,24 @@
     transform: translateY(-7px) rotate(-45deg);
   }
 }
+//user icon
+.header__icons__account a{
+  text-decoration: none;
+}
+
+.header__icons-user-log{
+  height: 36px;
+  width: 36px;
+  background-color: var(--primary-color);
+  border-radius: 50%;
+  border: 1px solid var(--black-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1.5rem;
+  font-family: 'Oswald', sans-serif;
+  text-transform: uppercase;
+  color: var(--black-color);
+  
+}

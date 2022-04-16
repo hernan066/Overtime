@@ -14,6 +14,9 @@ export const Navbar = () => {
   const [searchTerm, setSearchTerm] = useState("");
 
   const { numberOfItems } = useSelector((state: RootState) => state.cart);
+  const { user, isLoggedIn } = useSelector((state: RootState) => state.user);
+
+  
 
   const dispactch = useDispatch();
   const router = useRouter();
@@ -35,6 +38,10 @@ export const Navbar = () => {
 
     router.push(`/search/${searchTerm}`);
   };
+
+  const letter = user?.name?.split(" ")[0]?.charAt(0);
+
+  
 
   return (
     <nav className={`nav ${hideNavbar ? "hidden" : ""}`}>
@@ -107,22 +114,33 @@ export const Navbar = () => {
                   />
                 </div>
               </li>
-              <li className="header__icons__account">
-                <Link href={"/auth/login"} passHref>
-                  <a>
-                    <div className="header__icons-img">
-                      <Image
-                        src={"/icons/account.svg"}
-                        alt="bag"
-                        width={36}
-                        height={36}
-                        layout="responsive"
-                        objectFit="cover"
-                      />
-                    </div>
-                  </a>
-                </Link>
-              </li>
+              {isLoggedIn ? (
+                <li className="header__icons__account">
+                  <Link href={"/user/profile"} passHref>
+                    <a>
+                      <div className="header__icons-user-log">{letter}</div>
+                    </a>
+                  </Link>
+                </li>
+              ) : (
+                <li className="header__icons__account">
+                  <Link href={"/auth/login"} passHref>
+                    <a>
+                      <div className="header__icons-img">
+                        <Image
+                          src={"/icons/account.svg"}
+                          alt="bag"
+                          width={36}
+                          height={36}
+                          layout="responsive"
+                          objectFit="cover"
+                        />
+                      </div>
+                    </a>
+                  </Link>
+                </li>
+              )}
+
               <li
                 className="header__icon__item--cart"
                 onClick={() => dispactch(openCart())}
