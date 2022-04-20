@@ -43,13 +43,15 @@ export const ShopLayout: FC<Props> = ({
   //revalido tokken
 
   const revalidate = async () => {
-    try {
-      const { data } = await shopApi.get("/user/validate-token");
-      const { token, user } = data;
-      Cookies.set("token", token);
-      dispatch(login(user));
-    } catch (error) {
-      Cookies.remove("token");
+    if (Cookies.get("token")) {
+      try {
+        const { data } = await shopApi.get("/user/validate-token");
+        const { token, user } = data;
+        Cookies.set("token", token);
+        dispatch(login(user));
+      } catch (error) {
+        Cookies.remove("token");
+      }
     }
   };
 

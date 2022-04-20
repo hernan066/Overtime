@@ -5,6 +5,7 @@ import { RootState } from "../../../redux/store";
 import { CartItem } from "./CartItem";
 import { CartEmpty } from "./CartEmpty";
 import { ICartProduct } from "../../../interfaces/cart";
+import { useRouter } from "next/router";
 
 const cartVariants = {
   hidden: { x: 600 },
@@ -21,6 +22,14 @@ export const CartSideBar = () => {
   const dispatch = useDispatch();
   const { cart, subTotal } = useSelector((state: RootState) => state.cart);
 
+  const router = useRouter();
+  
+  const handleClick = () => {
+    dispatch(closeCart());
+    router.push("/checkout/cart");
+  };
+  
+  
   return (
     <>
       <motion.div
@@ -69,7 +78,7 @@ export const CartSideBar = () => {
                   <span>Subtotal:</span>
                   <span>${subTotal}</span>
                 </div>
-                <button className="btn">checkout</button>
+                <button className="btn" onClick={()=> handleClick()}>checkout</button>
                 <p>
                   By checking out, I agree to the Terms of Use and acknowledge
                   that I have read the Privacy Policy. Shipping and promotions

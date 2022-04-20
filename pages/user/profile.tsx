@@ -13,7 +13,8 @@ const ProfilePage: NextPage = () => {
   const userLogout = () => {
     dispatch(logout());
     Cookies.remove("token");
-    router.replace("/");
+    Cookies.remove("cart");
+    router.reload();
   };
 
   return (
