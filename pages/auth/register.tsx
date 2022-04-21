@@ -43,7 +43,10 @@ const RegisterPage = () => {
       dispatch(login(user));
 
       setError({ ...error, errorStatus: false });
-      router.replace("/");
+
+      // Todo: navegar a la pantalla que el usuario estaba
+      const destination = router.query.p?.toString() || "/";
+      router.replace(destination);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         setError({ errorStatus: true, message: error.response?.data.message });
@@ -113,7 +116,14 @@ const RegisterPage = () => {
 
             <p className="text">
               Already have an account?
-              <Link href="/auth/login" passHref>
+              <Link
+                href={
+                  router.query.p
+                    ? `/auth/login?p=${router.query.p}`
+                    : "/auth/login"
+                }
+                passHref
+              >
                 <a>Log in here</a>
               </Link>
             </p>

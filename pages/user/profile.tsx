@@ -14,7 +14,7 @@ const ProfilePage: NextPage = () => {
     dispatch(logout());
     Cookies.remove("token");
     Cookies.remove("cart");
-    router.reload();
+    router.replace("/");
   };
 
   return (

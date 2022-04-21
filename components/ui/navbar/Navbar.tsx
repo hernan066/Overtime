@@ -124,7 +124,7 @@ export const Navbar = () => {
                 </li>
               ) : (
                 <li className="header__icons__account">
-                  <Link href={"/auth/login"} passHref>
+                  <Link href={`/auth/login?p=${ router.asPath}`} passHref>
                     <a>
                       <div className="header__icons-img">
                         <Image

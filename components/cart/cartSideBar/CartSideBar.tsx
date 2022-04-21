@@ -78,7 +78,7 @@ export const CartSideBar = () => {
                   <span>Subtotal:</span>
                   <span>${subTotal}</span>
                 </div>
-                <button className="btn" onClick={()=> handleClick()}>checkout</button>
+                <button className="btn" onClick={()=> handleClick()}>Buy products</button>
                 <p>
                   By checking out, I agree to the Terms of Use and acknowledge
                   that I have read the Privacy Policy. Shipping and promotions

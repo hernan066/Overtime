@@ -33,12 +33,13 @@ const LoginPage = () => {
 
       Cookies.set("token", token);
       dispatch(login(user));
-      
+
       setError(false);
-      router.replace("/");
-    
+
+      // Todo: navegar a la pantalla que el usuario estaba
+      const destination = router.query.p?.toString() || "/";
+      router.replace(destination);
     } catch (error) {
-    
       console.log(error);
       setError(true);
     }
@@ -83,11 +84,25 @@ const LoginPage = () => {
             </button>
             <p className="text">
               Don&apos;t have an account?{" "}
-              <Link href="/auth/register" passHref>
+              <Link 
+              href={
+                router.query.p
+                  ? `/auth/register?p=${router.query.p}`
+                  : "/auth/register"
+              }
+              passHref
+              >
                 <a>Register</a>
               </Link>
             </p>
-            <Link href="/auth/register" passHref>
+            <Link
+              href={
+                router.query.p
+                  ? `/auth/register?p=${router.query.p}`
+                  : "/auth/register"
+              }
+              passHref
+            >
               <a>Forgot your password?</a>
             </Link>
           </form>
