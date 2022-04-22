@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ICartProduct } from "../interfaces/cart";
+import { ICartProduct, shippingAddress } from "../interfaces/cart";
 
 export interface uiState {
   cart: ICartProduct[];
@@ -7,6 +7,8 @@ export interface uiState {
   subTotal: number;
   tax: number;
   total: number;
+  shippingAddress?: shippingAddress;
+
 }
 
 const initialState: uiState = {
@@ -15,6 +17,7 @@ const initialState: uiState = {
   subTotal: 0,
   tax: 0,
   total: 0,
+  shippingAddress: undefined,
 };
 
 const taxRate = Number(process.env.NEXT_PUBLIC_TAX_RATE);
@@ -79,10 +82,15 @@ export const cartSlice = createSlice({
       state.subTotal = totalPrice;
       state.tax = state.subTotal * taxRate;
       state.total = state.subTotal + state.tax;
-    }
+    },
+
+    addAddress: (state, action) => {
+      state.shippingAddress = action.payload;
+    },
   },
 });
 
-export const { addToCart, deleteProduct, updateCart, loadCookies } = cartSlice.actions;
+export const { addToCart, deleteProduct, updateCart, loadCookies, addAddress } =
+  cartSlice.actions;
 
 export default cartSlice.reducer;

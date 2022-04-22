@@ -1,56 +1,45 @@
 import Cookies from "js-cookie";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
-import shopApi from "../../../api/shopApi";
 import { ShopLayout } from "../../../components/layout/ShopLayout";
-import { isEmail } from "../../../utils/validations";
 import { NextPage } from "next";
 import { countries } from "../../../utils/countries";
-
-type FormData = {
-  firstName: string;
-  lastName: string;
-  address: string;
-  address2?: string;
-  zip: string;
-  city: string;
-  country: string;
-  phone: string;
-};
-
-const getAddressFromCookies = (): FormData => {
-  return {
-    firstName: Cookies.get("firstName") || "",
-    lastName: Cookies.get("lastName") || "",
-    address: Cookies.get("address") || "",
-    address2: Cookies.get("address2") || "",
-    zip: Cookies.get("zip") || "",
-    city: Cookies.get("city") || "",
-    country: Cookies.get("country") || "",
-    phone: Cookies.get("phone") || "",
-  };
-};
+import { addAddress } from "../../../redux/cartSlice";
+import { useEffect } from "react";
+import { getAddressFromCookies } from "../../../utils/getAddressFromCookies";
+import { shippingAddress } from "../../../interfaces/cart";
 
 const AddressPage: NextPage = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormData>({
+  } = useForm<shippingAddress>({
     defaultValues: getAddressFromCookies(),
   });
 
   const dispatch = useDispatch();
   const router = useRouter();
 
-  const onSubmitAddress = (data: FormData) => {
-    //dispatch
-    //router.push("/checkout/summary");
-    console.log(data)
+  const onSubmitAddress = (data: shippingAddress) => {
+    Cookies.set("firstName", data.firstName);
+    Cookies.set("lastName", data.lastName);
+    Cookies.set("address", data.address);
+    Cookies.set("zip", data.zip);
+    Cookies.set("city", data.city);
+    Cookies.set("country", data.country);
+    Cookies.set("phone", data.phone);
+
+    dispatch(addAddress(data));
+
+    router.push("/checkout/summary");
   };
+
+  useEffect(() => {
+    dispatch(addAddress(getAddressFromCookies()));
+  }, [dispatch]);
 
   return (
     <ShopLayout title={"Your address"} pageDescription={"Your address"}>
@@ -107,15 +96,6 @@ const AddressPage: NextPage = () => {
             <div className="form-control">
               <input
                 type="text"
-                placeholder="Enter your Address 2 (optional)"
-                {...register("address2")}
-              />
-              <span className="form-error">{errors.address2?.message}</span>
-            </div>
-
-            <div className="form-control">
-              <input
-                type="text"
                 placeholder="Enter your Zip code"
                 {...register("zip", {
                   required: "Is required!",
@@ -134,18 +114,13 @@ const AddressPage: NextPage = () => {
               <span className="form-error">{errors.city?.message}</span>
             </div>
             <div className="form-control">
-              <select  
-              placeholder="Country/region"
-              {...register("country")}
-              >
-                 {
-                   countries.map((country) => (
-                      <option key={country.code} value={country.code}>{country.name}</option>
-                    ))
-                 }
-
+              <select placeholder="Country/region" {...register("country")}>
+                {countries.map((country) => (
+                  <option key={country.code} value={country.code}>
+                    {country.name}
+                  </option>
+                ))}
               </select>
-             
             </div>
             <div className="form-control">
               <input
