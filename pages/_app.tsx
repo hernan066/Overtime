@@ -1,11 +1,14 @@
 import type { AppProps } from "next/app";
 
-import { store } from "../redux/store";
 import { Provider } from "react-redux";
+import { store, persistor } from "../redux/store";
+import { PersistGate } from 'redux-persist/integration/react';
 
-import "../styles/styles.scss";
+
 import { AnimatePresence } from "framer-motion";
 import { SWRConfig } from "swr";
+
+import "../styles/styles.scss";
 
 
 function MyApp({ Component, pageProps, router }: AppProps) {
@@ -21,9 +24,11 @@ function MyApp({ Component, pageProps, router }: AppProps) {
       }}
     >
       <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
         <AnimatePresence exitBeforeEnter>
           <Component {...pageProps} key={router.asPath} />
         </AnimatePresence>
+        </PersistGate>
       </Provider>
     </SWRConfig>
   );

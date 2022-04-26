@@ -5,12 +5,14 @@ import { useDispatch } from "react-redux";
 import { logout } from "../../redux/userSlice";
 import { useRouter } from "next/router";
 import Cookies from "js-cookie";
+import { cleanLogOut } from "../../redux/cartSlice";
 
 const ProfilePage: NextPage = () => {
   const dispatch = useDispatch();
   const router = useRouter();
 
   const userLogout = () => {
+    dispatch(cleanLogOut())
     dispatch(logout());
     Cookies.remove("token");
     Cookies.remove("cart");

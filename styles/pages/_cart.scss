@@ -25,6 +25,7 @@
     display: flex;
     flex-direction: column;
    justify-content: flex-start;
+   height: 335px;
 }
 .checkout__cart__resume h2{
     font-size: 30px;
@@ -50,4 +51,14 @@
     text-transform: uppercase;
     margin-bottom: 15px;
     color: var(--black-color);
+}
+
+@media screen and (max-width: 1020px) {
+  .checkout__cart__main{
+    
+    flex-direction: column;
+  }
+  .checkout__cart__resume{
+    margin: 1rem 0;
+  }
 }

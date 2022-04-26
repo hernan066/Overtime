@@ -7,7 +7,7 @@ import { ShopLayout } from "../../../components/layout/ShopLayout";
 import { NextPage } from "next";
 import { countries } from "../../../utils/countries";
 import { addAddress } from "../../../redux/cartSlice";
-import { useEffect } from "react";
+
 import { getAddressFromCookies } from "../../../utils/getAddressFromCookies";
 import { shippingAddress } from "../../../interfaces/cart";
 
@@ -37,9 +37,8 @@ const AddressPage: NextPage = () => {
     router.push("/checkout/summary");
   };
 
-  useEffect(() => {
-    dispatch(addAddress(getAddressFromCookies()));
-  }, [dispatch]);
+  //el useEffect que carga las cookies esta en layout
+  //todo: agragar estos datos a la db y recuperalos de ahi
 
   return (
     <ShopLayout title={"Your address"} pageDescription={"Your address"}>
@@ -116,7 +115,7 @@ const AddressPage: NextPage = () => {
             <div className="form-control">
               <select placeholder="Country/region" {...register("country")}>
                 {countries.map((country) => (
-                  <option key={country.code} value={country.code}>
+                  <option key={country.code} value={country.name}>
                     {country.name}
                   </option>
                 ))}

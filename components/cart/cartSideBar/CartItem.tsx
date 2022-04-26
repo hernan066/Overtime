@@ -12,15 +12,14 @@ interface Props {
 }
 
 export const CartItem: FC<Props> = ({ product, idx }) => {
-  
   const cartItemVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.4, delay: 0.3 * (idx+1) },
+      transition: { duration: 0.4, delay: 0.3 * (idx + 1) },
     },
-    exit: { opacity: 0, transition: { duration: 0.4 }, },
+    exit: { opacity: 0, transition: { duration: 0.4 } },
   };
 
   const dispatch = useDispatch();
@@ -31,7 +30,7 @@ export const CartItem: FC<Props> = ({ product, idx }) => {
       variants={cartItemVariants}
       initial="hidden"
       animate="visible"
-      exit="exit" 
+      exit="exit"
     >
       <div className="cart__item-img">
         <Image
@@ -43,10 +42,11 @@ export const CartItem: FC<Props> = ({ product, idx }) => {
       </div>
       <div className="cart__item-details">
         <h4>{product.title}</h4>
-
-        <span>Size {product.size}</span>
-        <br />
-        <span>Quantity: {product.quantity}</span>
+        <div className="cart__item-details-size-quantity">
+          <span>Size {product.size}</span>
+          {"  -  "}
+          <span>Quantity: {product.quantity}</span>
+        </div>
       </div>
       <div className="cart__item-aside">
         <span>${product.totalPrice}</span>

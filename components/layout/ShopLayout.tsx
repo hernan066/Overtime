@@ -8,9 +8,10 @@ import { RootState } from "../../redux/store";
 import { AnimatePresence, motion } from "framer-motion";
 import { SearchSideBar } from "../products/productSearchSideBar/SearchSideBar";
 import Cookies from "js-cookie";
-import { loadCookies } from "../../redux/cartSlice";
+import { addAddress, loadCookies } from "../../redux/cartSlice";
 import shopApi from "../../api/shopApi";
 import { login } from "../../redux/userSlice";
+import { getAddressFromCookies } from "../../utils/getAddressFromCookies";
 
 interface Props {
   title: string;
@@ -32,13 +33,13 @@ export const ShopLayout: FC<Props> = ({
   const dispatch = useDispatch();
 
   //recupero las cookies en la parte mas alta de la aplicacion
-  useEffect(() => {
+  /* useEffect(() => {
     const cookiesProduct = Cookies.get("cart")
       ? JSON.parse(Cookies.get("cart")!)
       : [];
     dispatch(loadCookies(cookiesProduct));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, []); */
 
   //revalido tokken
 
@@ -59,6 +60,12 @@ export const ShopLayout: FC<Props> = ({
     revalidate();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+
+  //recupero de las cookies el address
+  /* useEffect(() => {
+    dispatch(addAddress(getAddressFromCookies()));
+  }, [dispatch]); */
 
   return (
     <>

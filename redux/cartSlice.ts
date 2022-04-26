@@ -87,10 +87,18 @@ export const cartSlice = createSlice({
     addAddress: (state, action) => {
       state.shippingAddress = action.payload;
     },
+    cleanLogOut: (state) => {
+      state.cart = [];
+      state.numberOfItems = 0;
+      state.subTotal = 0;
+      state.tax = 0;
+      state.total = 0;
+      state.shippingAddress = undefined;
+    }
   },
 });
 
-export const { addToCart, deleteProduct, updateCart, loadCookies, addAddress } =
+export const { addToCart, deleteProduct, updateCart, loadCookies, addAddress, cleanLogOut } =
   cartSlice.actions;
 
 export default cartSlice.reducer;

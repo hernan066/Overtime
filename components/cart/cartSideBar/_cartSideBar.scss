@@ -142,6 +142,8 @@ height: calc(100vh - 285px);
   flex-grow: 1;
   height: 100%;
   margin-left: 15px;
+  position: relative;
+  
   
 }
 .cart__item-details h4 {
@@ -150,6 +152,13 @@ height: calc(100vh - 285px);
   text-transform: uppercase;
   margin-bottom: 10px;
 }
+.cart__item-details-size-quantity{
+  position: absolute;
+  
+  bottom: 5px;
+}
+
+
 .cart__item-details span {
   color: var(--gray-dark-color);
   text-transform: capitalize;
@@ -224,4 +233,11 @@ height: calc(100vh - 285px);
   font-family: "Helvitica Neue", sans-serif;
   padding-top: 20px;
   line-height: 20px;
+}
+
+@media screen and (max-width: 550px) {
+  .cart__item-details h4{
+    font-size: 1rem;
+  }
+  
 }
