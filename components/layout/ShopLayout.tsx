@@ -8,10 +8,11 @@ import { RootState } from "../../redux/store";
 import { AnimatePresence, motion } from "framer-motion";
 import { SearchSideBar } from "../products/productSearchSideBar/SearchSideBar";
 import Cookies from "js-cookie";
-import { addAddress, loadCookies } from "../../redux/cartSlice";
+
 import shopApi from "../../api/shopApi";
 import { login } from "../../redux/userSlice";
-import { getAddressFromCookies } from "../../utils/getAddressFromCookies";
+import { useSession } from "next-auth/react";
+
 
 interface Props {
   title: string;
@@ -31,6 +32,20 @@ export const ShopLayout: FC<Props> = ({
   );
 
   const dispatch = useDispatch();
+
+  
+  
+  //Next-Auth
+  const {data, status} = useSession();
+  useEffect(() => {
+    if (status === "authenticated") {
+      console.log({user:data?.user})
+      dispatch(login(data?.user));
+    }
+  }, [status, data, dispatch]);
+
+  
+
 
   //recupero las cookies en la parte mas alta de la aplicacion
   /* useEffect(() => {

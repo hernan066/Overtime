@@ -7,6 +7,8 @@ import { useRouter } from "next/router";
 import Cookies from "js-cookie";
 import { cleanLogOut } from "../../redux/cartSlice";
 
+import { signOut } from "next-auth/react";
+
 const ProfilePage: NextPage = () => {
   const dispatch = useDispatch();
   const router = useRouter();
@@ -14,9 +16,11 @@ const ProfilePage: NextPage = () => {
   const userLogout = () => {
     dispatch(cleanLogOut())
     dispatch(logout());
-    Cookies.remove("token");
     Cookies.remove("cart");
+    
+    signOut();
     router.replace("/");
+    //Cookies.remove("token");
   };
 
   return (
