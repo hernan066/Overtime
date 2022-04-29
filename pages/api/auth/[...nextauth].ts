@@ -2,7 +2,10 @@ import NextAuth from "next-auth";
 import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 import Credentials from "next-auth/providers/credentials";
-import { checkUserEmailPassword, oAUthToDbUser } from "../../../database/dbUsers";
+import {
+  checkUserEmailPassword,
+  oAUthToDbUser,
+} from "../../../database/dbUsers";
 
 export default NextAuth({
   // Configure one or more authentication providers
@@ -25,8 +28,10 @@ export default NextAuth({
         console.log({ credentials });
         // return { name: 'Juan', correo: 'juan@google.com', role: 'admin' };
 
-        return await checkUserEmailPassword( credentials!.email, credentials!.password );
-        
+        return await checkUserEmailPassword(
+          credentials!.email,
+          credentials!.password
+        );
       },
     }),
 
@@ -41,9 +46,20 @@ export default NextAuth({
     }),
   ],
 
+  // Custom Pages
+  pages: {
+    signIn: "/auth/login",
+    newUser: "/auth/register",
+  },
+
+  // Callbacks
+  jwt: {
+    // secret: process.env.JWT_SECRET_SEED, // deprecated
+  },
+
   session: {
     maxAge: 2592000, /// 30d
-    strategy: 'jwt',
+    strategy: "jwt",
     updateAge: 86400, // cada día
   },
 
@@ -71,13 +87,13 @@ export default NextAuth({
       return token;
     },
 
-    async session({ session, token, user }){
+    async session({ session, token, user }) {
       // console.log({ session, token, user });
 
       session.accessToken = token.accessToken;
       session.user = token.user as any;
 
       return session;
-    }
+    },
   },
 });

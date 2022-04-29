@@ -1,13 +1,13 @@
 import React from "react";
 import { ShopLayout } from "../../components/layout/ShopLayout";
-import { NextPage } from "next";
+import { GetServerSideProps, NextPage } from "next";
 import { useDispatch } from "react-redux";
 import { logout } from "../../redux/userSlice";
 import { useRouter } from "next/router";
 import Cookies from "js-cookie";
 import { cleanLogOut } from "../../redux/cartSlice";
 
-import { signOut } from "next-auth/react";
+import { getSession, signOut } from "next-auth/react";
 
 const ProfilePage: NextPage = () => {
   const dispatch = useDispatch();
@@ -16,6 +16,7 @@ const ProfilePage: NextPage = () => {
   const userLogout = () => {
     dispatch(cleanLogOut())
     dispatch(logout());
+    Cookies.remove("token");
     Cookies.remove("cart");
     
     signOut();
@@ -46,5 +47,28 @@ const ProfilePage: NextPage = () => {
     </ShopLayout>
   );
 };
+
+
+export const getServerSideProps: GetServerSideProps = async ({ req, query }) => {
+    
+  const session = await getSession({ req });
+  console.log({session});
+
+  const { p = '/' } = query;
+
+  if ( !session ) {
+      return {
+          redirect: {
+              destination: p.toString(),
+              permanent: false
+          }
+      }
+  }
+
+
+  return {
+      props: { }
+  }
+}
 
 export default ProfilePage;

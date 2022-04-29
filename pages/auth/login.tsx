@@ -8,6 +8,8 @@ import { isEmail } from "../../utils/validations";
 import { useState } from "react";
 import { useRouter } from "next/router";
 import { login } from "../../redux/userSlice";
+import { getSession, signIn } from "next-auth/react";
+import { GetServerSideProps } from "next";
 
 type Inputs = {
   email: string;
@@ -27,7 +29,7 @@ const LoginPage = () => {
   const [error, setError] = useState(false);
 
   const onLogin = async ({ email, password }: Inputs) => {
-    try {
+   /*  try {
       const { data } = await shopApi.post("/user/login", { email, password });
       const { token, user } = data;
 
@@ -42,7 +44,9 @@ const LoginPage = () => {
     } catch (error) {
       console.log(error);
       setError(true);
-    }
+    } */
+
+    await signIn('credentials', {email, password});
   };
 
   return (
@@ -111,5 +115,28 @@ const LoginPage = () => {
     </ShopLayout>
   );
 };
+
+
+export const getServerSideProps: GetServerSideProps = async ({ req, query }) => {
+    
+  const session = await getSession({ req });
+  // console.log({session});
+
+  const { p = '/' } = query;
+
+  if ( session ) {
+      return {
+          redirect: {
+              destination: p.toString(),
+              permanent: false
+          }
+      }
+  }
+
+
+  return {
+      props: { }
+  }
+}
 
 export default LoginPage;
