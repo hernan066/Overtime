@@ -1,12 +1,22 @@
-import { NextFetchEvent, NextRequest, NextResponse } from 'next/server';
-import { isValidToken } from '../../../utils/jws';
+import { NextFetchEvent, NextRequest, NextResponse } from "next/server";
+import { getToken } from "next-auth/jwt";
+//import { isValidToken } from '../../../utils/jws';
 
+export async function middleware(req: NextRequest | any, ev: NextFetchEvent) {
+  
+    const session = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
 
+  // console.log({ session });
 
+  if (!session) {
+    const requestedPage = req.page.name;
+    const { origin } = req.nextUrl
+    return NextResponse.redirect(`${origin}/auth/login?p=${ requestedPage }`); 
+  }
 
-export async function middleware( req: NextRequest, ev: NextFetchEvent ) {
+  return NextResponse.next();
 
-    const { token = '' } = req.cookies;
+  /*  const { token = '' } = req.cookies;
 
     //return new Response ( 'Token:' + token)
     
@@ -27,6 +37,5 @@ export async function middleware( req: NextRequest, ev: NextFetchEvent ) {
         
         //return  Response.redirect(`${origin}/auth/login`);
         return NextResponse.redirect(`${origin}/auth/login?p=${ requestedPage }`); 
-    } 
-
+    }  */
 }

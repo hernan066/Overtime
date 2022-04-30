@@ -71,10 +71,10 @@ export const ShopLayout: FC<Props> = ({
     }
   };
 
-  useEffect(() => {
+   useEffect(() => {
     revalidate();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, []); 
 
 
   //recupero de las cookies el address

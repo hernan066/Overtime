@@ -16,6 +16,7 @@ const ProfilePage: NextPage = () => {
   const userLogout = () => {
     dispatch(cleanLogOut())
     dispatch(logout());
+    localStorage.removeItem('persist:root');
     Cookies.remove("token");
     Cookies.remove("cart");
     

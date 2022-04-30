@@ -1,14 +1,13 @@
-import Cookies from "js-cookie";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
-import shopApi from "../../api/shopApi";
+//import { useDispatch } from "react-redux";
+
 import { ShopLayout } from "../../components/layout/ShopLayout";
 import { isEmail } from "../../utils/validations";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { login } from "../../redux/userSlice";
-import { getSession, signIn } from "next-auth/react";
+
+import { getSession, signIn, getProviders } from "next-auth/react";
 import { GetServerSideProps } from "next";
 
 type Inputs = {
@@ -23,13 +22,22 @@ const LoginPage = () => {
     formState: { errors },
   } = useForm<Inputs>();
 
-  const dispatch = useDispatch();
+  //const dispatch = useDispatch();
   const router = useRouter();
 
   const [error, setError] = useState(false);
 
+  const [providers, setProviders] = useState<any>({});
+
+  useEffect(() => {
+    getProviders().then((prov) => {
+      // console.log({prov});
+      setProviders(prov);
+    });
+  }, []);
+
   const onLogin = async ({ email, password }: Inputs) => {
-   /*  try {
+    /*  try {
       const { data } = await shopApi.post("/user/login", { email, password });
       const { token, user } = data;
 
@@ -46,7 +54,7 @@ const LoginPage = () => {
       setError(true);
     } */
 
-    await signIn('credentials', {email, password});
+    await signIn("credentials", { email, password });
   };
 
   return (
@@ -86,15 +94,35 @@ const LoginPage = () => {
             <button className="btn" type="submit">
               Login
             </button>
+
+          </form>
+            <div className="form-social-network">
+              <p>Or login with social networks</p>
+
+              {Object.values(providers).map((provider: any) => {
+                if (provider.id === "credentials")
+                  return <div key="credentials"></div>;
+                return (
+                  <button
+                    key={provider.id}
+                    className="btn"
+                    onClick={() => signIn(provider.id)}
+                  >
+                    {provider.name}
+                  </button>
+                );
+              })}
+            </div>
+
             <p className="text">
               Don&apos;t have an account?{" "}
-              <Link 
-              href={
-                router.query.p
-                  ? `/auth/register?p=${router.query.p}`
-                  : "/auth/register"
-              }
-              passHref
+              <Link
+                href={
+                  router.query.p
+                    ? `/auth/register?p=${router.query.p}`
+                    : "/auth/register"
+                }
+                passHref
               >
                 <a>Register</a>
               </Link>
@@ -109,34 +137,33 @@ const LoginPage = () => {
             >
               <a>Forgot your password?</a>
             </Link>
-          </form>
         </div>
       </div>
     </ShopLayout>
   );
 };
 
-
-export const getServerSideProps: GetServerSideProps = async ({ req, query }) => {
-    
+export const getServerSideProps: GetServerSideProps = async ({
+  req,
+  query,
+}) => {
   const session = await getSession({ req });
   // console.log({session});
 
-  const { p = '/' } = query;
+  const { p = "/" } = query;
 
-  if ( session ) {
-      return {
-          redirect: {
-              destination: p.toString(),
-              permanent: false
-          }
-      }
+  if (session) {
+    return {
+      redirect: {
+        destination: p.toString(),
+        permanent: false,
+      },
+    };
   }
-
 
   return {
-      props: { }
-  }
-}
+    props: {},
+  };
+};
 
 export default LoginPage;
