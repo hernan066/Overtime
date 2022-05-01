@@ -1,7 +1,23 @@
 import { ShopLayout } from '../../../components/layout/ShopLayout';
 import Link from "next/link";
+import { useEffect } from 'react';
+import Cookies from 'js-cookie';
+import { useRouter } from 'next/router';
 
 const PaymentPage = () => {
+  
+  
+  //todo: borrar todas las cookies
+  
+  const router = useRouter();
+  
+  useEffect(() => {
+    if ( !Cookies.get('firstName') ) {
+        router.push('/checkout/address');
+    }
+}, [ router ]);
+  
+  
   return (
     <ShopLayout title={'Checkout Shipping - Overtime'} pageDescription={'Checkout Shipping - Overtime'}>
 

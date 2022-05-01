@@ -8,6 +8,8 @@ import { useSelector } from "react-redux";
 import { formatPrice } from "../../../utils/currency";
 import { useRouter } from "next/router";
 import { OrderItem } from "../../../components/checkout/orderItem/OrderItem";
+import { useEffect } from "react";
+import Cookies from "js-cookie";
 
 const ShippingPage = () => {
   const { cart, subTotal, tax, total, shippingAddress } = useSelector(
@@ -19,6 +21,14 @@ const ShippingPage = () => {
   const handleClick = () => {
     router.push("/checkout/address");
   };
+
+
+  //todo: borrar todas las cookies, y  usar este hook en todos los componentes del checkout
+  useEffect(() => {
+    if ( !Cookies.get('firstName') ) {
+        router.push('/checkout/address');
+    }
+}, [ router ]);
 
   return (
     <ShopLayout

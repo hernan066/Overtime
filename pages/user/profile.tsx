@@ -14,12 +14,15 @@ const ProfilePage: NextPage = () => {
   const router = useRouter();
 
   const userLogout = () => {
-    dispatch(cleanLogOut())
-    dispatch(logout());
     localStorage.removeItem('persist:root');
+    
+    //borrar todas las cookies
+    
     Cookies.remove("token");
     Cookies.remove("cart");
     
+    dispatch(cleanLogOut())
+    dispatch(logout());
     signOut();
     router.replace("/");
     //Cookies.remove("token");
