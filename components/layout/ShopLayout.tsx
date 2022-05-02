@@ -14,6 +14,7 @@ import { login } from "../../redux/userSlice";
 import { useSession } from "next-auth/react";
 
 
+
 interface Props {
   title: string;
   pageDescription: string;
@@ -39,7 +40,7 @@ export const ShopLayout: FC<Props> = ({
   const {data, status} = useSession();
   useEffect(() => {
     if (status === "authenticated") {
-      console.log({user:data?.user})
+      //console.log({user:data?.user})
       dispatch(login(data?.user));
     }
   }, [status, data, dispatch]);
@@ -57,6 +58,7 @@ export const ShopLayout: FC<Props> = ({
   }, []); */
 
   //revalido tokken
+  //ahora lo hace next-auth
 
   const revalidate = async () => {
     if (Cookies.get("token")) {
@@ -71,10 +73,10 @@ export const ShopLayout: FC<Props> = ({
     }
   };
 
-   useEffect(() => {
+  /*  useEffect(() => {
     revalidate();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []); 
+  }, []); */ 
 
 
   //recupero de las cookies el address

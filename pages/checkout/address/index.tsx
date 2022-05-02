@@ -113,7 +113,7 @@ const AddressPage: NextPage = () => {
               <span className="form-error">{errors.city?.message}</span>
             </div>
             <div className="form-control">
-              <select >
+            <select  {...register("country")}>
                
 
                 {countries.map((country) => (

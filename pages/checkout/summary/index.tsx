@@ -3,32 +3,91 @@ import Link from "next/link";
 
 import { ICartProduct } from "../../../interfaces/cart";
 import { RootState } from "../../../redux/store";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { formatPrice } from "../../../utils/currency";
 import { useRouter } from "next/router";
 import { OrderItem } from "../../../components/checkout/orderItem/OrderItem";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
+import shopApi from "../../../api/shopApi";
+import { IOrder } from "../../../interfaces/order";
+import axios from "axios";
+import { orderComplete } from "../../../redux/cartSlice";
 
 const ShippingPage = () => {
-  const { cart, subTotal, tax, total, shippingAddress } = useSelector(
-    (state: RootState) => state.cart
-  );
+  const { cart, numberOfItems, subTotal, tax, total, shippingAddress } =
+    useSelector((state: RootState) => state.cart);
 
   const router = useRouter();
+  const dispatch = useDispatch();
 
-  const handleClick = () => {
-    router.push("/checkout/address");
+  const [isPosting, setIsPosting] = useState(false);
+  const [error, setError] = useState("");
+
+  //verifica si hay una direccion guardada en las cookies
+  useEffect(() => {
+    if (!Cookies.get("firstName")) {
+      router.push("/checkout/address");
+    }
+  }, [router]);
+
+  const createOrder = async ():Promise<{hasError: boolean, message: string}> => {
+    if (!shippingAddress) {
+      throw new Error("No shipping address");
+    }
+
+    const body: IOrder = {
+      orderItems: cart,
+      shippingAddress: shippingAddress,
+      numberOfItems: numberOfItems,
+      subTotal: subTotal,
+      tax: tax,
+      total: total,
+      isPaid: false,
+    };
+
+    try {
+      const { data } = await shopApi.post<IOrder>("/orders", body);
+
+      //console.log(data);
+      dispatch(orderComplete());
+
+      return{
+        hasError: false,
+        message: data._id!
+      }
+
+      //TODO limpiar estado
+    } catch (error) {
+      console.log(error); if ( axios.isAxiosError(error) ) {
+        return {
+            hasError: true,
+            message: error.response?.data.message
+        }
+    }
+    return {
+        hasError: true,
+        message : 'Error no controlado, hable con el administrador'
+    }
+    }
   };
 
-
-  //todo: borrar todas las cookies, y  usar este hook en todos los componentes del checkout
-  useEffect(() => {
-    if ( !Cookies.get('firstName') ) {
-        router.push('/checkout/address');
+  const sendOrder = async () => {
+    setIsPosting(true);
+    
+    const{hasError, message} = await createOrder();
+    
+    if(hasError){
+      setIsPosting(false);
+      setError(message);
+      return;
     }
-}, [ router ]);
+
+
+    router.replace(`/orders/${ message }`);
+    
+  };
 
   return (
     <ShopLayout
@@ -59,10 +118,11 @@ const ShippingPage = () => {
             <div className="summary__address">
               <h2 className="summary__title">Shipping Address</h2>
               <div className="summary__address__info">
-                
-              
-              <p>{shippingAddress?.firstName} {shippingAddress?.lastName}, {shippingAddress?.address}, {shippingAddress?.city}, {shippingAddress?.zip}, {shippingAddress?.country}  </p>
-              
+                <p>
+                  {shippingAddress?.firstName} {shippingAddress?.lastName},{" "}
+                  {shippingAddress?.address}, {shippingAddress?.city},{" "}
+                  {shippingAddress?.zip}, {shippingAddress?.country}{" "}
+                </p>
               </div>
             </div>
 
@@ -91,9 +151,15 @@ const ShippingPage = () => {
               <span>Total:</span>
               <span>{formatPrice(total)}</span>
             </div>
-            <button className="btn" onClick={() => handleClick()}>
+            <button
+              className="btn"
+              onClick={() => sendOrder()}
+              disabled={isPosting}
+            >
               Checkout
             </button>
+
+            {error && <p className="checkout__error">{error}</p>}
           </div>
         </div>
       </div>
