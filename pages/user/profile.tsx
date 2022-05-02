@@ -14,15 +14,25 @@ const ProfilePage: NextPage = () => {
   const router = useRouter();
 
   const userLogout = () => {
-    localStorage.removeItem('persist:root');
-    
+    //borro el localstorage, por lo que se vuelve al estado inicial
+    localStorage.removeItem("persist:root");
+
     //borrar todas las cookies
-    
-    Cookies.remove("token");
+
+    Cookies.remove("firstName");
+    Cookies.remove("lastName");
+    Cookies.remove("address");
+    Cookies.remove("zip");
+    Cookies.remove("city");
+    Cookies.remove("country");
+    Cookies.remove("phone");
+
     Cookies.remove("cart");
     
-    dispatch(cleanLogOut())
-    dispatch(logout());
+
+    //dispatch(cleanLogOut());
+    //dispatch(logout());
+    //next-auth signout
     signOut();
     router.replace("/");
     //Cookies.remove("token");
@@ -33,14 +43,13 @@ const ProfilePage: NextPage = () => {
       <div className="profile__container">
         <h1>My Account</h1>
         <div className="profile__main">
-          
           <div className="profile__details">
-          <h2>ACCOUNT DETAILS</h2>
+            <h2>ACCOUNT DETAILS</h2>
             <p>Hernan Moneta</p>
             <button className="btn">Add adresses</button>
           </div>
           <div className="profile__bag">
-          <h2>BAGS SECURED</h2>
+            <h2>BAGS SECURED</h2>
             <p>You haven&apos;t placed any orders yet.</p>
           </div>
           <button className="btn" onClick={() => userLogout()}>
@@ -52,27 +61,27 @@ const ProfilePage: NextPage = () => {
   );
 };
 
-
-export const getServerSideProps: GetServerSideProps = async ({ req, query }) => {
-    
+export const getServerSideProps: GetServerSideProps = async ({
+  req,
+  query,
+}) => {
   const session = await getSession({ req });
-  console.log({session});
+  console.log({ session });
 
-  const { p = '/' } = query;
+  const { p = "/" } = query;
 
-  if ( !session ) {
-      return {
-          redirect: {
-              destination: p.toString(),
-              permanent: false
-          }
-      }
+  if (!session) {
+    return {
+      redirect: {
+        destination: p.toString(),
+        permanent: false,
+      },
+    };
   }
-
 
   return {
-      props: { }
-  }
-}
+    props: {},
+  };
+};
 
 export default ProfilePage;
