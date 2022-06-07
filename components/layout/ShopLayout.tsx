@@ -2,6 +2,8 @@ import { FC, useEffect } from "react";
 import Head from "next/head";
 import { Navbar } from "../ui/navbar/Navbar";
 import { PromoBar } from "../ui/promoBar/PromoBar";
+import { Footer } from "../ui/footer/Footer";
+
 import { CartSideBar } from "../cart/cartSideBar/CartSideBar";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
@@ -119,8 +121,8 @@ export const ShopLayout: FC<Props> = ({
         {children}
       </motion.main>
 
-      {/* Footer */}
-      <footer>{/* TODO: mi custom footer */}</footer>
+      <Footer />
+      
     </>
   );
 };
