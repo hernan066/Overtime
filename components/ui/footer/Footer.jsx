@@ -243,6 +243,7 @@ export const Footer = () => {
           </div>
         </div>
       </div>
+      <p className="footer__copyright__entry">Create by Hernan Moneta ©2022</p>
     </footer>
   );
 };
