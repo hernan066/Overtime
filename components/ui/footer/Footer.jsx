@@ -144,13 +144,63 @@ export const Footer = () => {
                       />
                     </div>
 
-                    <button className="attentive-signup__btn">{'>'}</button>
+                    <button className="attentive-signup__btn">{">"}</button>
                   </div>
                 </form>
               </div>
             </div>
           </div>
-          <div className="footer__menu"></div>
+          <div className="footer__menu">
+            <div className="footer__menu_inner">
+              <ul className="footer__menu__items">
+                <li className="footer__menu__item">
+                  <a href="#" className="footer__menu__item__link">
+                    HELP CENTER
+                  </a>
+                </li>
+                <li className="footer__menu__item">
+                  <a href="#" className="footer__menu__item__link">
+                  RETURNS AND EXCHANGES
+                  </a>
+                </li>
+                <li className="footer__menu__item">
+                  <a href="#" className="footer__menu__item__link">
+                  EDIT OR CANCEL ORDER
+                  </a>
+                </li>
+                <li className="footer__menu__item">
+                  <a href="#" className="footer__menu__item__link">
+                  LOOKBOOK
+                  </a>
+                </li>
+                <li className="footer__menu__item">
+                  <a href="#" className="footer__menu__item__link">
+                  ACCOUNT
+                  </a>
+                </li>
+                <li className="footer__menu__item">
+                  <a href="#" className="footer__menu__item__link">
+                  OVERTIME TV
+                  </a>
+                </li>
+                <li className="footer__menu__item">
+                  <a href="#" className="footer__menu__item__link">
+                  DOWNLOAD THE APP
+                  </a>
+                </li>
+                <li className="footer__menu__item">
+                  <a href="#" className="footer__menu__item__link">
+                  ABOUT
+                  </a>
+                </li>
+                <li className="footer__menu__item">
+                  <a href="#" className="footer__menu__item__link">
+                  CONTACT US
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
           <div className="footer__social_container"></div>
         </div>
       </div>
