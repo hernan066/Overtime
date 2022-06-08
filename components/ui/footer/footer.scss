@@ -71,10 +71,12 @@
 .footer__newsletter,
 .footer__menu,
 .footer__social_container {
-  border: 1px solid #e6e6e6;
-  width: 33%;
+  *border: 1px solid #e6e6e6;
+  *width: 33%;
   color: #fff;
 }
+
+//////////////////////////left///////////////////////////////
 .footer__newsletter {
   padding-right: 40px;
   max-width: 415px;
@@ -139,6 +141,14 @@
   cursor: pointer;
   z-index: 2;
 }
+
+//////////////////center/////////////////////
+.footer__menu {
+  flex: 1;
+  text-align: left;
+  margin-bottom: 0;
+}
+
 .footer__menu_inner {
   margin-left: auto;
   max-width: 260px;
@@ -165,4 +175,19 @@
 }
 .footer__menu__item__link:hover {
   color: var(--primary-color);
+}
+
+//////////////////right/////////////////////
+
+.footer__social__container {
+  
+  flex: 1;
+}
+.footer__social {
+  list-style: none;
+  margin: -10px;
+  text-align: right;
+  display: flex;
+  gap: 1rem;
+  justify-content: end;
 }
